@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🔐 PROXY LOGIN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: #0a0e1a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            color: #fff;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            margin: auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .header h1 {
+            font-size: 30px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 2px;
+        }
+        .header .sub {
+            font-size: 11px;
+            color: rgba(255,255,255,0.15);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: -4px;
+        }
+
+        .box {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,255,136,0.08);
+            border-radius: 20px;
+            padding: 24px 20px;
+            margin-top: 12px;
+            box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+        }
+
+        .box-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: rgba(255,255,255,0.2);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+        }
+
+        .input-group {
+            margin-bottom: 14px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 14px;
+            outline: none;
+            transition: 0.25s;
+        }
+        .input-group input:focus {
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0,255,136,0.06);
+        }
+        .input-group input::placeholder {
+            color: rgba(255,255,255,0.15);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            color: #fff;
+            background: linear-gradient(135deg, #00ff88, #00ccff);
+            transition: 0.25s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 20px rgba(0,255,136,0.15);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-outline {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            color: #fff;
+        }
+
+        .proxy-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: rgba(0,255,136,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(0,255,136,0.05);
+            margin-top: 10px;
+        }
+        .proxy-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ff4d6a;
+            transition: 0.3s;
+        }
+        .proxy-dot.online {
+            background: #00ff88;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .proxy-info {
+            font-size: 12px;
+            color: rgba(255,255,255,0.3);
+        }
+        .proxy-info span {
+            color: #00ccff;
+            font-family: monospace;
+        }
+
+        .cert-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            background: rgba(0,255,136,0.03);
+            border-radius: 10px;
+            margin-top: 8px;
+            font-size: 11px;
+            color: rgba(255,255,255,0.2);
+        }
+        .cert-status .check {
+            color: #00ff88;
+        }
+
+        .mt-8 { margin-top: 8px; }
+        .mt-12 { margin-top: 12px; }
+        .text-center { text-align: center; }
+        .text-muted { color: rgba(255,255,255,0.12); font-size: 10px; }
+        .hidden { display: none; }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.85);
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            z-index: 9999;
+            border: 1px solid rgba(0,255,136,0.15);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            max-width: 90%;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+            animation: fadeInOut 2.2s ease forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        }
+
+        @media (max-width: 400px) {
+            .box { padding: 16px 12px; }
+            .input-group input { font-size: 13px; padding: 10px 12px; }
+            .btn-primary { font-size: 13px; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🔐 PROXY LOGIN</h1>
+        <div class="sub">MITROXY · SECURE · VIP</div>
+    </div>
+
+    <!-- LOGIN -->
+    <div class="box">
+        <div class="box-title">🔑 ĐĂNG NHẬP PROXY</div>
+
+        <div class="input-group">
+            <label>🔑 Access Key</label>
+            <input type="text" id="loginKey" placeholder="Nhập key của bạn...">
+        </div>
+
+        <button class="btn-primary" onclick="loginProxy()">🌐 KẾT NỐI PROXY</button>
+
+        <div id="loginResult" class="mt-8" style="font-size:12px;color:rgba(255,255,255,0.15);text-align:center;"></div>
+    </div>
+
+    <!-- PROXY STATUS -->
+    <div class="box">
+        <div class="box-title">🌐 PROXY STATUS</div>
+
+        <div class="proxy-status">
+            <span class="proxy-dot" id="proxyDot"></span>
+            <span class="proxy-info" id="proxyStatusText">Đang kiểm tra kết nối...</span>
+            <span style="margin-left:auto;color:rgba(255,255,255,0.12);font-size:10px;font-family:monospace;" id="proxyPort">mitmproxy:8080</span>
+        </div>
+
+        <!-- Certificate status -->
+        <div class="cert-status">
+            <span class="check">🔒</span>
+            <span>Chứng chỉ MITM: <span id="certStatus" style="color:#ff4d6a;">Chưa cài</span></span>
+            <button onclick="downloadCert()" style="margin-left:auto;padding:4px 12px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.02);color:rgba(255,255,255,0.3);font-size:10px;cursor:pointer;">Tải CA</button>
+        </div>
+
+        <div style="margin-top:10px;padding:10px 12px;background:rgba(255,255,255,0.02);border-radius:10px;border:1px solid rgba(255,255,255,0.03);">
+            <div style="font-size:10px;color:rgba(255,255,255,0.12);font-family:monospace;word-break:break-all;">
+                <div>📋 Proxy URL: <span style="color:#00ccff;">http://mitmproxy.local:8080</span></div>
+                <div style="margin-top:4px;">🔗 Cài đặt: Wi-Fi → HTTP Proxy → Thủ công</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HƯỚNG DẪN -->
+    <div class="box">
+        <div class="box-title">📖 HƯỚNG DẪN</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.2);line-height:1.8;">
+            <div>1️⃣ Nhập key đã được cấp</div>
+            <div>2️⃣ Nhấn "KẾT NỐI PROXY"</div>
+            <div>3️⃣ Tải chứng chỉ CA và cài trên iPhone</div>
+            <div>4️⃣ Cấu hình proxy trong Wi-Fi</div>
+            <div style="margin-top:6px;color:rgba(255,255,255,0.1);">📞 Admin: 0976457016</div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // ============================================================
+    // PROXY LOGIN SYSTEM
+    // ============================================================
+
+    // Firebase config
+    const FIREBASE_CONFIG = {
+        databaseURL: "https://severkeytlong-default-rtdb.asia-southeast1.firebasedatabase.app"
+    };
+
+    // Certificate content (từ file mitmproxy-ca-cert.txt)
+    const MITM_CERT = `-----BEGIN CERTIFICATE-----
+MIIDNTCCAh2gAwIBAgIURMk1z2OJFui0cYQeL/qTk60QjAQwDQYJKoZIhvcNAQEL
+BQAwKDESMBAGA1UEAwwJbWl0bXByb3h5MRIwEAYDVQQKDAltaXRtcHJveHkwHhcN
+MjYwNzAyMTcxNDIwWhcNMzYwNjI5MTcxNDIwWjAoMRIwEAYDVQQDDAltaXRtcHJv
+eHkxEjAQBgNVBAoMCW1pdG1wcm94eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBAMYETRbPTNCGEpRncBVVieDW+7ATBq4KsqKfSs+7aONbafHHzDjNZdab
+5mlzd1KmFfa6jaSGbtzsG1NRgu2BbtQ3a0h5+Sy8QCJ1h/L21hnZ6WpNqh5CGhU3
+Pfr165OF7t03D0rVfwlXHkzB3sxYqPStd0CtVMKFia3l6w1cgvGqZnEP14heveOl
+ecjTEHFQdcaWUSwit/w+wgrx80L0dRl00654GTPlIgEij0qCEs0QICc6xL+wQhdf
+7FU6HTazk/58y3Bu1+dUiRhUG0egGX9Z5ij61yG8sJOtfYInjxrS1Qs4O2UYBILj
+0j3+j8noTFjmOLoUBiciRUWpEf4DdWsCAwEAAaNXMFUwDwYDVR0TAQH/BAUwAwEB
+/zATBgNVHSUEDDAKBggrBgEFBQcDATAOBgNVHQ8BAf8EBAMCAQYwHQYDVR0OBBYE
+FBnqRLsj0LkmrZwllNq54YllFJMgMA0GCSqGSIb3DQEBCwUAA4IBAQAvkwGTj8ve
+ctwcEf3Cv/Hud61aPuV6dIwb1jgh0W7g6TbA4FQbVQiTnB8pNkjFYfmjOhFnIFj4
+THysKpC/gQY3kW5wOGOATEdn+Cu603KK8Ul9kIiEzvIcMtcmTa3CErEgOQsbixDv
+mlt6vHaCVKdtHXCdYrBlcd/tnBcnQ4cIlQBqNY50gjsogNCIRc4LeisaSByc0xTo
+3vb8JFuySmvyFfrheVx42JivUNQ104VwA3ZwLHIyjE6chfC8Qfai9MIeAwNN277r
+XUk/IjMvCsmPgacd1Alg8FAsmcKCRnPhpqu/uEKt7R/neJ1yX30aEJWb7estxpnh
+vMSwqzfovfO3
+-----END CERTIFICATE-----`;
+
+    // ============================================================
+    // KIỂM TRA KEY
+    // ============================================================
+    async function loginProxy() {
+        const key = document.getElementById('loginKey').value.trim();
+        const resultEl = document.getElementById('loginResult');
+
+        if (!key) {
+            resultEl.innerHTML = '⚠️ Vui lòng nhập key!';
+            resultEl.style.color = '#ff4d6a';
+            return;
+        }
+
+        resultEl.innerHTML = '⏳ Đang kiểm tra key...';
+        resultEl.style.color = 'rgba(255,255,255,0.3)';
+
+        try {
+            const safeKey = key.replace(/-/g, '_');
+            const response = await fetch(`${FIREBASE_CONFIG.databaseURL}/keys/${safeKey}.json`);
+            const data = await response.json();
+
+            if (!data) {
+                resultEl.innerHTML = '❌ Key không tồn tại!';
+                resultEl.style.color = '#ff4d6a';
+                return;
+            }
+
+            const now = Date.now();
+            if (!data.active) {
+                resultEl.innerHTML = '❌ Key đã bị khóa!';
+                resultEl.style.color = '#ff4d6a';
+                return;
+            }
+            if (data.expire < now) {
+                resultEl.innerHTML = '⛔ Key đã hết hạn!';
+                resultEl.style.color = '#ff4d6a';
+                return;
+            }
+
+            // Lưu key vào localStorage
+            localStorage.setItem('proxy_key', key);
+            localStorage.setItem('proxy_expire', data.expire);
+
+            // Cập nhật UI
+            resultEl.innerHTML = '✅ Kết nối proxy thành công!';
+            resultEl.style.color = '#00ff88';
+
+            // Cập nhật status
+            document.getElementById('proxyDot').className = 'proxy-dot online';
+            document.getElementById('proxyStatusText').innerHTML = '🟢 Đã kết nối · Key: <span style="color:#00ccff;">' + key + '</span>';
+            document.getElementById('certStatus').textContent = 'Đã kích hoạt';
+            document.getElementById('certStatus').style.color = '#00ff88';
+
+            showToast('✅ Đã kết nối proxy với key: ' + key);
+
+        } catch (error) {
+            resultEl.innerHTML = '❌ Lỗi kết nối: ' + error.message;
+            resultEl.style.color = '#ff4d6a';
+        }
+    }
+
+    // ============================================================
+    // TẢI CHỨNG CHỈ
+    // ============================================================
+    function downloadCert() {
+        const blob = new Blob([MITM_CERT], { type: 'application/x-x509-ca-cert' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'mitmproxy-ca-cert.crt';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        showToast('📦 Đã tải chứng chỉ! Hãy cài trên iPhone.');
+    }
+
+    // ============================================================
+    // KIỂM TRA KEY ĐÃ LƯU
+    // ============================================================
+    function checkSavedKey() {
+        const savedKey = localStorage.getItem('proxy_key');
+        const expire = localStorage.getItem('proxy_expire');
+
+        if (savedKey && expire && parseInt(expire) > Date.now()) {
+            document.getElementById('loginKey').value = savedKey;
+            document.getElementById('proxyDot').className = 'proxy-dot online';
+            document.getElementById('proxyStatusText').innerHTML = '🟢 Đã kết nối · Key: <span style="color:#00ccff;">' + savedKey + '</span>';
+            document.getElementById('certStatus').textContent = 'Đã kích hoạt';
+            document.getElementById('certStatus').style.color = '#00ff88';
+        } else {
+            localStorage.removeItem('proxy_key');
+            localStorage.removeItem('proxy_expire');
+        }
+    }
+
+    // ============================================================
+    // TOAST
+    // ============================================================
+    function showToast(msg) {
+        const existing = document.querySelector('.toast-msg');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = 'toast-msg';
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.remove(), 2300);
+    }
+
+    // ============================================================
+    // KHỞI TẠO
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        checkSavedKey();
+        console.log('🔐 PROXY LOGIN loaded');
+    });
+</script>
+
+</body>
+</html>
