@@ -413,6 +413,24 @@
             .btn-primary { font-size: 13px; padding: 12px; }
             .vpn-item { font-size: 12px; }
         }
+
+        /* Copy button */
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: #4a6cf7;
+            cursor: pointer;
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+        .copy-btn:hover {
+            background: #e8ecf1;
+        }
+        .copy-btn:active {
+            transform: scale(0.9);
+        }
     </style>
 </head>
 <body>
@@ -489,7 +507,9 @@
 
             <!-- Download Section -->
             <div id="downloadSection" class="hidden" style="margin-top:14px;border-top:1px solid #e8ecf1;padding-top:14px;">
-                <button class="btn-success" onclick="downloadConfig()">📦 Tải mobileconfig</button>
+                <button class="btn-success" onclick="downloadConfig()">📦 Tải mobileconfig (MitmProxy)</button>
+                <button class="btn-outline mt-8" onclick="downloadConfigBasic()">📦 Tải mobileconfig (Basic)</button>
+                <button class="btn-outline mt-8" onclick="copyProxyInfo()">📋 Sao chép thông tin Proxy</button>
                 <button class="btn-outline mt-8" onclick="resetActivation()">🔄 Kích hoạt key khác</button>
             </div>
 
@@ -535,7 +555,7 @@
 
 <script>
     // ============================================================
-    // NP PROXY - FULL SYSTEM
+    // NP PROXY - FULL SYSTEM WITH MITMPROXY
     // ============================================================
 
     // Firebase config
@@ -550,6 +570,28 @@
         'Aim neck': '180.93.32.64:1704',
         'Aim neck+antenna': '180.93.32.64:1706'
     };
+
+    // MitmProxy CA Certificate (from mitmproxy-ca-cert.txt)
+    const MITM_CA_CERT = `-----BEGIN CERTIFICATE-----
+MIIDNTCCAh2gAwIBAgIURMk1z2OJFui0cYQeL/qTk60QjAQwDQYJKoZIhvcNAQEL
+BQAwKDESMBAGA1UEAwwJbWl0bXByb3h5MRIwEAYDVQQKDAltaXRtcHJveHkwHhcN
+MjYwNzAyMTcxNDIwWhcNMzYwNjI5MTcxNDIwWjAoMRIwEAYDVQQDDAltaXRtcHJv
+eHkxEjAQBgNVBAoMCW1pdG1wcm94eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBAMYETRbPTNCGEpRncBVVieDW+7ATBq4KsqKfSs+7aONbafHHzDjNZdab
+5mlzd1KmFfa6jaSGbtzsG1NRgu2BbtQ3a0h5+Sy8QCJ1h/L21hnZ6WpNqh5CGhU3
+Pfr165OF7t03D0rVfwlXHkzB3sxYqPStd0CtVMKFia3l6w1cgvGqZnEP14heveOl
+ecjTEHFQdcaWUSwit/w+wgrx80L0dRl00654GTPlIgEij0qCEs0QICc6xL+wQhdf
+7FU6HTazk/58y3Bu1+dUiRhUG0egGX9Z5ij61yG8sJOtfYInjxrS1Qs4O2UYBILj
+0j3+j8noTFjmOLoUBiciRUWpEf4DdWsCAwEAAaNXMFUwDwYDVR0TAQH/BAUwAwEB
+/zATBgNVHSUEDDAKBggrBgEFBQcDATAOBgNVHQ8BAf8EBAMCAQYwHQYDVR0OBBYE
+FBnqRLsj0LkmrZwllNq54YllFJMgMA0GCSqGSIb3DQEBCwUAA4IBAQAvkwGTj8ve
+ctwcEf3Cv/Hud61aPuV6dIwb1jgh0W7g6TbA4FQbVQiTnB8pNkjFYfmjOhFnIFj4
+THysKpC/gQY3kW5wOGOATEdn+Cu603KK8Ul9kIiEzvIcMtcmTa3CErEgOQsbixDv
+mlt6vHaCVKdtHXCdYrBlcd/tnBcnQ4cIlQBqNY50gjsogNCIRc4LeisaSByc0xTo
+3vb8JFuySmvyFfrheVx42JivUNQ104VwA3ZwLHIyjE6chfC8Qfai9MIeAwNN277r
+XUk/IjMvCsmPgacd1Alg8FAsmcKCRnPhpqu/uEKt7R/neJ1yX30aEJWb7estxpnh
+vMSwqzfovfO3
+-----END CERTIFICATE-----`;
 
     // ============================================================
     // TAB SWITCH
@@ -612,7 +654,6 @@
             const infoDisplay = document.getElementById('keyInfoDisplay');
             infoDisplay.classList.remove('hidden');
 
-            const days = data.days || 0;
             const typeLabel = getTypeLabel(data.type || '1d');
             const devices = data.devices ? Object.keys(data.devices).length : 0;
             const maxDevices = data.maxDevices || 1;
@@ -666,11 +707,9 @@
         const safeKey = currentKey.replace(/-/g, '_');
 
         try {
-            // Kiểm tra UID đã tồn tại chưa
             const devices = currentKeyData.devices || {};
             const deviceIds = Object.keys(devices);
 
-            // Kiểm tra UID đã được kích hoạt chưa
             if (deviceIds.includes(uid)) {
                 msgEl.textContent = '✅ UID đã được kích hoạt trước đó!';
                 msgEl.style.color = '#22c55e';
@@ -682,14 +721,12 @@
                 return;
             }
 
-            // Kiểm tra slot
             if (deviceIds.length >= (currentKeyData.maxDevices || 1)) {
                 msgEl.textContent = '❌ Key đã đạt giới hạn thiết bị!';
                 msgEl.style.color = '#ef4444';
                 return;
             }
 
-            // Lưu UID vào Firebase
             const updateData = {
                 ...currentKeyData,
                 devices: {
@@ -706,7 +743,6 @@
 
             if (!response.ok) throw new Error('Lỗi lưu UID');
 
-            // Cập nhật lại data
             currentKeyData = updateData;
 
             msgEl.textContent = '✅ Kích hoạt thành công!';
@@ -717,11 +753,9 @@
             document.getElementById('uidSection').classList.add('hidden');
             document.getElementById('downloadSection').classList.remove('hidden');
 
-            // Cập nhật slot
             const devices2 = Object.keys(updateData.devices || {});
             document.getElementById('dispSlot').textContent = `${devices2.length}/${updateData.maxDevices || 1} còn trống`;
 
-            // Lưu lịch sử
             addHistory(currentKey, uid, 'Kích hoạt thành công');
 
         } catch (error) {
@@ -731,7 +765,7 @@
     }
 
     // ============================================================
-    // DOWNLOAD CONFIG
+    // DOWNLOAD CONFIG - WITH MITMPROXY
     // ============================================================
     function downloadConfig() {
         if (!currentKey) {
@@ -739,28 +773,34 @@
             return;
         }
 
-        const config = `<?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-        <plist version="1.0">
-        <dict>
-            <key>PayloadType</key>
-            <string>Configuration</string>
-            <key>PayloadVersion</key>
-            <integer>1</integer>
-            <key>PayloadIdentifier</key>
-            <string>com.npproxy.config</string>
-            <key>PayloadUUID</key>
-            <string>${currentKey.replace(/-/g, '')}</string>
-            <key>PayloadDisplayName</key>
-            <string>🎯 NP PROXY</string>
-            <key>PayloadDescription</key>
-            <string>• NP PROXY - Key: ${currentKey}
-        • Hỗ trợ cổng: 1700, 1701, 1703, 1704, 1706
-        • Liên hệ Admin: ${ADMIN_ZALO}</string>
-            <key>PayloadOrganization</key>
-            <string>NP PROXY</string>
-            <key>PayloadContent</key>
-            <array>
+        // Tạo config với MitmProxy và các cổng proxy
+        const config = generateMobileConfig(true);
+        downloadFile(config, `NP_PROXY_MITM_${currentKey}.mobileconfig`);
+        showToast('📦 Đã tải config với MitmProxy!');
+    }
+
+    // ============================================================
+    // DOWNLOAD CONFIG - BASIC (không có MitmProxy)
+    // ============================================================
+    function downloadConfigBasic() {
+        if (!currentKey) {
+            showToast('⚠️ Chưa có key để tải config!');
+            return;
+        }
+
+        const config = generateMobileConfig(false);
+        downloadFile(config, `NP_PROXY_${currentKey}.mobileconfig`);
+        showToast('📦 Đã tải config Basic!');
+    }
+
+    // ============================================================
+    // GENERATE MOBILE CONFIG
+    // ============================================================
+    function generateMobileConfig(withMitm) {
+        const uuid = currentKey.replace(/-/g, '');
+        const vpnList = Object.entries(VPN_PORTS).map(([name, addr]) => `• ${name}: ${addr}`).join('\n        ');
+
+        let payloadContent = `
                 <dict>
                     <key>PayloadType</key>
                     <string>com.apple.webClip.managed</string>
@@ -769,7 +809,7 @@
                     <key>PayloadIdentifier</key>
                     <string>com.npproxy.webclip</string>
                     <key>PayloadUUID</key>
-                    <string>${currentKey.replace(/-/g, '')}-web</string>
+                    <string>${uuid}-web</string>
                     <key>PayloadDisplayName</key>
                     <string>NP PROXY</string>
                     <key>URL</key>
@@ -780,18 +820,130 @@
                     <true/>
                     <key>FullScreen</key>
                     <true/>
-                </dict>
-            </array>
-        </dict>
-        </plist>`;
+                </dict>`;
 
-        const blob = new Blob([config], { type: 'application/x-apple-aspen-config' });
+        // Nếu có MitmProxy, thêm payload cài đặt chứng chỉ
+        if (withMitm) {
+            // Thêm payload cho chứng chỉ MitmProxy
+            const certPayload = `
+                <dict>
+                    <key>PayloadType</key>
+                    <string>com.apple.security.pkcs1</string>
+                    <key>PayloadVersion</key>
+                    <integer>1</integer>
+                    <key>PayloadIdentifier</key>
+                    <string>com.npproxy.mitm.cert</string>
+                    <key>PayloadUUID</key>
+                    <string>${uuid}-mitm-cert</string>
+                    <key>PayloadDisplayName</key>
+                    <string>MitmProxy CA</string>
+                    <key>PayloadContent</key>
+                    <data>
+${MITM_CA_CERT.split('\n').filter(line => line.trim() !== '' && !line.includes('BEGIN') && !line.includes('END')).join('')}
+                    </data>
+                </dict>`;
+
+            // Thêm payload cấu hình proxy cho từng cổng
+            let proxyPayloads = '';
+            Object.entries(VPN_PORTS).forEach(([name, addr], index) => {
+                const [host, port] = addr.split(':');
+                const proxyUUID = `${uuid}-proxy-${index}`;
+                proxyPayloads += `
+                <dict>
+                    <key>PayloadType</key>
+                    <string>com.apple.proxy.http</string>
+                    <key>PayloadVersion</key>
+                    <integer>1</integer>
+                    <key>PayloadIdentifier</key>
+                    <string>com.npproxy.proxy.${index}</string>
+                    <key>PayloadUUID</key>
+                    <string>${proxyUUID}</string>
+                    <key>PayloadDisplayName</key>
+                    <string>${name}</string>
+                    <key>ProxyServer</key>
+                    <string>${host}</string>
+                    <key>ProxyServerPort</key>
+                    <integer>${port}</integer>
+                    <key>ProxyType</key>
+                    <string>HTTP</string>
+                    <key>ProxyUsername</key>
+                    <string>${currentKey}</string>
+                    <key>ProxyPassword</key>
+                    <string>${currentKey}</string>
+                </dict>`;
+            });
+
+            payloadContent = certPayload + proxyPayloads + payloadContent;
+        }
+
+        return `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>PayloadType</key>
+    <string>Configuration</string>
+    <key>PayloadVersion</key>
+    <integer>1</integer>
+    <key>PayloadIdentifier</key>
+    <string>com.npproxy.config</string>
+    <key>PayloadUUID</key>
+    <string>${uuid}</string>
+    <key>PayloadDisplayName</key>
+    <string>🎯 NP PROXY${withMitm ? ' (MitmProxy)' : ''}</string>
+    <key>PayloadDescription</key>
+    <string>• NP PROXY - Key: ${currentKey}
+        • Hỗ trợ các cổng:
+        ${vpnList}
+        • Liên hệ Admin: ${ADMIN_ZALO}
+        ${withMitm ? '• Đã tích hợp chứng chỉ MitmProxy' : ''}</string>
+    <key>PayloadOrganization</key>
+    <string>NP PROXY</string>
+    <key>PayloadContent</key>
+    <array>
+        ${payloadContent}
+    </array>
+</dict>
+</plist>`;
+    }
+
+    // ============================================================
+    // DOWNLOAD FILE HELPER
+    // ============================================================
+    function downloadFile(content, filename) {
+        const blob = new Blob([content], { type: 'application/x-apple-aspen-config' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `NP_PROXY_${currentKey}.mobileconfig`;
+        a.download = filename;
+        document.body.appendChild(a);
         a.click();
+        document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
-        showToast('📦 Đã tải config!');
+    }
+
+    // ============================================================
+    // COPY PROXY INFO
+    // ============================================================
+    function copyProxyInfo() {
+        let info = `🎯 NP PROXY - Key: ${currentKey}\n\n`;
+        info += `📡 Danh sách Proxy:\n`;
+        Object.entries(VPN_PORTS).forEach(([name, addr]) => {
+            info += `  ${name}: ${addr}\n`;
+        });
+        info += `\n📞 Admin: ${ADMIN_ZALO}\n`;
+        info += `🔐 MitmProxy CA đã được tích hợp trong config`;
+
+        navigator.clipboard.writeText(info).then(() => {
+            showToast('📋 Đã sao chép thông tin Proxy!');
+        }).catch(() => {
+            // Fallback
+            const textarea = document.createElement('textarea');
+            textarea.value = info;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast('📋 Đã sao chép thông tin Proxy!');
+        });
     }
 
     // ============================================================
@@ -878,7 +1030,6 @@
             time: new Date().toLocaleString('vi-VN'),
             timestamp: Date.now()
         });
-        // Giữ tối đa 50 records
         if (history.length > 50) history = history.slice(0, 50);
         localStorage.setItem('np_proxy_history', JSON.stringify(history));
         renderHistory();
@@ -955,6 +1106,7 @@
         renderHistory();
         console.log('🔐 NP PROXY loaded');
         console.log('📞 Admin:', ADMIN_ZALO);
+        console.log('🔑 MitmProxy CA đã sẵn sàng');
     });
 </script>
 
