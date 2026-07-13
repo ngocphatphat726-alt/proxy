@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>🔐 PROXY LOGIN</title>
+    <title>NP PROXY</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -18,7 +19,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 16px;
+            padding: 12px;
             color: #1a1a2e;
         }
 
@@ -28,54 +29,118 @@
             margin: auto;
         }
 
-        .header {
+        /* HEADER */
+        .app-header {
             text-align: center;
-            margin-bottom: 28px;
+            padding: 8px 0 12px 0;
         }
-        .header h1 {
-            font-size: 32px;
+        .app-header h1 {
+            font-size: 26px;
             font-weight: 800;
             color: #1a1a2e;
             letter-spacing: 1px;
         }
-        .header h1 span {
+        .app-header h1 span {
             color: #4a6cf7;
         }
-        .header .sub {
-            font-size: 12px;
+        .app-header .sub {
+            font-size: 11px;
             color: #8a8a9a;
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-top: 2px;
         }
 
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 4px;
+            border: 1px solid #e8ecf1;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px 0;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.25s;
+            background: transparent;
+            color: #8a8a9a;
+        }
+        .tab-btn.active {
+            background: #4a6cf7;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(74,108,247,0.2);
+        }
+        .tab-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* BOX */
         .box {
             background: #ffffff;
-            border-radius: 20px;
-            padding: 24px 20px;
-            margin-top: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.04), 0 1px 2px rgba(0,0,0,0.02);
+            border-radius: 18px;
+            padding: 20px 16px;
             border: 1px solid #e8ecf1;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
         }
 
         .box-title {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
             color: #8a8a9a;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
-        .input-group {
+        /* STEPS */
+        .steps {
+            display: flex;
+            gap: 6px;
             margin-bottom: 14px;
+        }
+        .step-item {
+            flex: 1;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 11px;
+            font-weight: 600;
+            color: #b0b0c0;
+            border-bottom: 2px solid #e8ecf1;
+            transition: 0.2s;
+        }
+        .step-item.active {
+            color: #4a6cf7;
+            border-bottom-color: #4a6cf7;
+        }
+        .step-item .num {
+            display: block;
+            font-size: 9px;
+            color: #b0b0c0;
+            font-weight: 400;
+        }
+        .step-item.active .num {
+            color: #4a6cf7;
+        }
+
+        /* INPUT GROUP */
+        .input-group {
+            margin-bottom: 12px;
         }
         .input-group label {
             display: block;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             color: #3a3a4a;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
         .input-group input {
             width: 100%;
@@ -84,185 +149,88 @@
             border: 1.5px solid #e8ecf1;
             background: #f8f9fc;
             color: #1a1a2e;
-            font-size: 15px;
+            font-size: 14px;
             outline: none;
             transition: 0.2s;
+            text-transform: uppercase;
         }
         .input-group input:focus {
             border-color: #4a6cf7;
             background: #ffffff;
-            box-shadow: 0 0 0 4px rgba(74,108,247,0.06);
+            box-shadow: 0 0 0 4px rgba(74,108,247,0.05);
         }
         .input-group input::placeholder {
             color: #b0b0c0;
+            text-transform: none;
         }
 
+        /* BUTTONS */
         .btn-primary {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             border: none;
             border-radius: 12px;
             font-weight: 700;
-            font-size: 15px;
+            font-size: 14px;
             cursor: pointer;
             color: #fff;
-            background: linear-gradient(135deg, #4a6cf7, #6366f1);
+            background: #4a6cf7;
             transition: 0.2s;
             letter-spacing: 0.5px;
-            box-shadow: 0 4px 14px rgba(74,108,247,0.2);
+            box-shadow: 0 4px 14px rgba(74,108,247,0.15);
         }
         .btn-primary:active {
             transform: scale(0.97);
-        }
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
         }
 
         .btn-outline {
             background: #f8f9fc;
             border: 1.5px solid #e8ecf1;
             color: #3a3a4a;
-            padding: 10px 16px;
-            border-radius: 10px;
+            padding: 12px;
+            border-radius: 12px;
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
             transition: 0.2s;
+            width: 100%;
         }
         .btn-outline:active {
             transform: scale(0.97);
+            background: #f1f3f5;
         }
 
-        .status-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: #f8f9fc;
+        .btn-success {
+            width: 100%;
+            padding: 13px;
+            border: none;
             border-radius: 12px;
-            border: 1px solid #e8ecf1;
-            margin-top: 12px;
-        }
-        .status-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #d1d5db;
-            flex-shrink: 0;
-            transition: 0.3s;
-        }
-        .status-dot.online {
-            background: #22c55e;
-            box-shadow: 0 0 12px rgba(34,197,94,0.2);
-        }
-        .status-dot.offline {
-            background: #ef4444;
-        }
-        .status-text {
-            font-size: 13px;
-            color: #6a6a7a;
-        }
-        .status-text strong {
-            color: #1a1a2e;
-            font-weight: 600;
-        }
-
-        .result-box {
-            margin-top: 14px;
-            padding: 14px 16px;
-            border-radius: 12px;
-            background: #f0f7ff;
-            border: 1px solid #dbeafe;
-            display: none;
-        }
-        .result-box.success {
-            background: #f0fdf4;
-            border-color: #bbf7d0;
-            display: block;
-        }
-        .result-box.error {
-            background: #fef2f2;
-            border-color: #fecaca;
-            display: block;
-        }
-        .result-text {
-            font-size: 13px;
-            color: #3a3a4a;
-        }
-        .result-text .highlight {
-            color: #4a6cf7;
-            font-weight: 600;
-            font-family: monospace;
-            font-size: 15px;
-        }
-
-        .cert-section {
-            margin-top: 12px;
-            padding: 14px 16px;
-            background: #f8f9fc;
-            border-radius: 12px;
-            border: 1px solid #e8ecf1;
-        }
-        .cert-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            font-size: 13px;
-            color: #6a6a7a;
-        }
-        .cert-row .check {
-            color: #22c55e;
-        }
-        .cert-row .cross {
-            color: #ef4444;
-        }
-
-        .proxy-info {
-            margin-top: 10px;
-            padding: 12px 14px;
-            background: #f8f9fc;
-            border-radius: 12px;
-            border: 1px solid #e8ecf1;
-            font-size: 12px;
-            color: #6a6a7a;
-            font-family: monospace;
-            line-height: 1.8;
-        }
-        .proxy-info .label {
-            color: #8a8a9a;
-        }
-        .proxy-info .value {
-            color: #4a6cf7;
-            font-weight: 600;
-        }
-
-        .guide {
-            font-size: 12px;
-            color: #8a8a9a;
-            line-height: 1.8;
-            padding: 4px 0;
-        }
-        .guide .step {
-            display: flex;
-            gap: 8px;
-            padding: 4px 0;
-        }
-        .guide .num {
-            color: #4a6cf7;
             font-weight: 700;
-            min-width: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            color: #fff;
+            background: #22c55e;
+            transition: 0.2s;
+            box-shadow: 0 4px 14px rgba(34,197,94,0.15);
+        }
+        .btn-success:active {
+            transform: scale(0.97);
         }
 
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 11px;
-            color: #b0b0c0;
+        .btn-danger-outline {
+            width: 100%;
+            padding: 10px;
+            border: 1.5px solid #fecaca;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 12px;
+            cursor: pointer;
+            color: #ef4444;
+            background: #fef2f2;
+            transition: 0.2s;
         }
-        .footer a {
-            color: #4a6cf7;
-            text-decoration: none;
+        .btn-danger-outline:active {
+            transform: scale(0.97);
         }
 
         .flex-row {
@@ -272,14 +240,145 @@
         .flex-row button {
             flex: 1;
         }
+
         .mt-8 { margin-top: 8px; }
         .mt-12 { margin-top: 12px; }
+        .mb-8 { margin-bottom: 8px; }
         .text-center { text-align: center; }
         .hidden { display: none !important; }
 
+        /* KEY INFO CARD */
+        .key-info-card {
+            background: #f8f9fc;
+            border-radius: 14px;
+            padding: 14px 16px;
+            border: 1px solid #e8ecf1;
+            margin-top: 10px;
+        }
+        .key-info-card .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #f1f3f5;
+        }
+        .key-info-card .row:last-child {
+            border-bottom: none;
+        }
+        .key-info-card .label {
+            color: #8a8a9a;
+        }
+        .key-info-card .value {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+        .key-info-card .value.gold {
+            color: #f59e0b;
+        }
+        .key-info-card .value.green {
+            color: #22c55e;
+        }
+        .key-info-card .value.red {
+            color: #ef4444;
+        }
+        .key-info-card .value.blue {
+            color: #4a6cf7;
+        }
+
+        /* VPN INFO */
+        .vpn-list {
+            margin-top: 10px;
+        }
+        .vpn-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #f1f3f5;
+            font-family: monospace;
+            color: #3a3a4a;
+        }
+        .vpn-item:last-child {
+            border-bottom: none;
+        }
+        .vpn-item .vpn-name {
+            color: #8a8a9a;
+            font-family: -apple-system, 'Segoe UI', sans-serif;
+        }
+        .vpn-item .vpn-addr {
+            color: #4a6cf7;
+            font-weight: 600;
+        }
+
+        /* HISTORY */
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-bottom: 1px solid #f1f3f5;
+            font-size: 12px;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .history-item .h-key {
+            font-family: monospace;
+            color: #4a6cf7;
+            font-weight: 600;
+        }
+        .history-item .h-info {
+            color: #8a8a9a;
+        }
+        .history-item .h-time {
+            color: #b0b0c0;
+            font-size: 10px;
+        }
+
+        .history-empty {
+            text-align: center;
+            padding: 24px 0;
+            color: #b0b0c0;
+            font-size: 13px;
+        }
+
+        /* SEARCH */
+        .search-row {
+            display: flex;
+            gap: 8px;
+        }
+        .search-row input {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1.5px solid #e8ecf1;
+            background: #f8f9fc;
+            color: #1a1a2e;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .search-row input:focus {
+            border-color: #4a6cf7;
+        }
+        .search-row button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            color: #fff;
+            background: #4a6cf7;
+            transition: 0.2s;
+        }
+        .search-row button:active {
+            transform: scale(0.95);
+        }
+
+        /* TOAST */
         .toast {
             position: fixed;
-            bottom: 80px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             background: #1a1a2e;
@@ -300,10 +399,19 @@
             100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
         }
 
+        /* TAB CONTENT */
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
         @media (max-width: 400px) {
-            .box { padding: 16px 14px; }
-            .input-group input { font-size: 14px; padding: 10px 12px; }
-            .btn-primary { font-size: 14px; padding: 12px; }
+            .box { padding: 16px 12px; }
+            .input-group input { font-size: 13px; padding: 10px 12px; }
+            .btn-primary { font-size: 13px; padding: 12px; }
+            .vpn-item { font-size: 12px; }
         }
     </style>
 </head>
@@ -312,139 +420,166 @@
 <div class="container">
 
     <!-- HEADER -->
-    <div class="header">
-        <h1>🔐 <span>PROXY</span> LOGIN</h1>
-        <div class="sub">MITROXY · AIM · SECURE</div>
+    <div class="app-header">
+        <h1>NP <span>PROXY</span></h1>
+        <div class="sub">Kích hoạt Key &amp; Quản lý UID</div>
     </div>
 
-    <!-- LOGIN BOX -->
-    <div class="box">
-        <div class="box-title">🔑 ĐĂNG NHẬP PROXY</div>
-
-        <div class="input-group">
-            <label>Access Key</label>
-            <input type="text" id="keyInput" placeholder="Nhập key của bạn..." style="text-transform:uppercase;">
-        </div>
-
-        <button class="btn-primary" id="loginBtn" onclick="loginProxy()">🌐 KẾT NỐI PROXY</button>
-
-        <div id="resultBox" class="result-box">
-            <div class="result-text" id="resultText"></div>
-        </div>
-
-        <!-- STATUS -->
-        <div class="status-box">
-            <span class="status-dot" id="statusDot"></span>
-            <span class="status-text" id="statusText">Chưa kết nối</span>
-        </div>
+    <!-- TABS -->
+    <div class="tabs">
+        <button class="tab-btn active" data-tab="activate" onclick="switchTab('activate')">Kích Hoạt</button>
+        <button class="tab-btn" data-tab="search" onclick="switchTab('search')">Tra Cứu</button>
+        <button class="tab-btn" data-tab="history" onclick="switchTab('history')">Lịch Sử</button>
     </div>
 
-    <!-- PROXY INFO -->
-    <div class="box">
-        <div class="box-title">🌐 PROXY STATUS</div>
+    <!-- ============================================================ -->
+    <!-- TAB 1: KÍCH HOẠT -->
+    <!-- ============================================================ -->
+    <div id="tab-activate" class="tab-content active">
 
-        <div class="cert-section">
-            <div class="cert-row">
-                <span>🔒 Chứng chỉ MITM</span>
-                <span id="certStatus"><span class="cross">✕</span> Chưa cài</span>
+        <!-- STEPS -->
+        <div class="steps">
+            <div class="step-item active" id="step1"><span class="num">1.</span> Key</div>
+            <div class="step-item" id="step2"><span class="num">2.</span> UID</div>
+            <div class="step-item" id="step3"><span class="num">3.</span> Tải</div>
+        </div>
+
+        <div class="box">
+            <div class="box-title">🔑 NHẬP KEY</div>
+
+            <div class="input-group">
+                <label>ACCESS KEY</label>
+                <input type="text" id="activateKey" placeholder="VD: EB24183E06" style="text-transform:uppercase;">
             </div>
-            <div class="cert-row" style="margin-top:6px;">
-                <span>📱 Thiết bị</span>
-                <span id="deviceId" style="font-family:monospace;font-size:11px;color:#8a8a9a;">---</span>
+
+            <button class="btn-primary" onclick="checkAndActivate()">🔍 Kiểm Tra Key</button>
+
+            <!-- KEY INFO -->
+            <div id="keyInfoDisplay" class="key-info-card hidden">
+                <div class="row"><span class="label">Key:</span><span class="value blue" id="dispKey">---</span></div>
+                <div class="row"><span class="label">Thời hạn:</span><span class="value" id="dispType">---</span></div>
+                <div class="row"><span class="label">Slot:</span><span class="value" id="dispSlot">---</span></div>
+                <div class="row"><span class="label">Kích hoạt:</span><span class="value" id="dispActivated">---</span></div>
+                <div class="row"><span class="label">Còn lại:</span><span class="value gold" id="dispRemain">---</span></div>
             </div>
-            <button class="btn-outline mt-8" onclick="downloadCert()" style="width:100%;">📥 Tải chứng chỉ CA</button>
-        </div>
 
-        <div class="proxy-info">
-            <div><span class="label">🔗 Proxy URL:</span> <span class="value">http://mitmproxy.local:8080</span></div>
-            <div><span class="label">📡 Cổng hỗ trợ:</span> <span class="value">1700, 1701, 1703, 1704, 1706</span></div>
-            <div><span class="label">👤 Admin:</span> <span class="value">0976457016</span></div>
+            <!-- VPN INFO -->
+            <div id="vpnInfoDisplay" class="hidden" style="margin-top:12px;">
+                <div class="box-title" style="margin-bottom:6px;">📡 THÔNG TIN VPN:</div>
+                <div class="vpn-list">
+                    <div class="vpn-item"><span class="vpn-name">AimDrag</span><span class="vpn-addr">180.93.32.64:1700</span></div>
+                    <div class="vpn-item"><span class="vpn-name">AimBodyAntena</span><span class="vpn-addr">180.93.32.64:1701</span></div>
+                    <div class="vpn-item"><span class="vpn-name">Aim Body</span><span class="vpn-addr">180.93.32.64:1703</span></div>
+                    <div class="vpn-item"><span class="vpn-name">Aim neck</span><span class="vpn-addr">180.93.32.64:1704</span></div>
+                    <div class="vpn-item"><span class="vpn-name">Aim neck+antenna</span><span class="vpn-addr">180.93.32.64:1706</span></div>
+                </div>
+            </div>
+
+            <!-- UID INPUT (hiện sau khi key hợp lệ) -->
+            <div id="uidSection" class="hidden" style="margin-top:14px;border-top:1px solid #e8ecf1;padding-top:14px;">
+                <div class="box-title">🎮 UID (TÀI KHOẢN GAME)</div>
+                <div class="input-group">
+                    <input type="text" id="uidInput" placeholder="Nhập UID game...">
+                </div>
+                <div class="flex-row">
+                    <button class="btn-success" onclick="activateUID()">✅ Kích Hoạt</button>
+                    <button class="btn-outline" onclick="resetActivation()">↩️ Quay lại</button>
+                </div>
+            </div>
+
+            <!-- Download Section -->
+            <div id="downloadSection" class="hidden" style="margin-top:14px;border-top:1px solid #e8ecf1;padding-top:14px;">
+                <button class="btn-success" onclick="downloadConfig()">📦 Tải mobileconfig</button>
+                <button class="btn-outline mt-8" onclick="resetActivation()">🔄 Kích hoạt key khác</button>
+            </div>
+
+            <!-- Status message -->
+            <div id="activateMsg" style="margin-top:10px;font-size:13px;color:#8a8a9a;text-align:center;"></div>
         </div>
     </div>
 
-    <!-- GUIDE -->
-    <div class="box">
-        <div class="box-title">📖 HƯỚNG DẪN</div>
-        <div class="guide">
-            <div class="step"><span class="num">1.</span> Nhập key đã được cấp</div>
-            <div class="step"><span class="num">2.</span> Nhấn "KẾT NỐI PROXY"</div>
-            <div class="step"><span class="num">3.</span> Tải chứng chỉ CA và cài trên iPhone</div>
-            <div class="step"><span class="num">4.</span> Cài đặt: Wi-Fi → HTTP Proxy → Thủ công</div>
-            <div class="step"><span class="num">5.</span> Server: <strong>mitmproxy.local</strong> · Port: <strong>8080</strong></div>
+    <!-- ============================================================ -->
+    <!-- TAB 2: TRA CỨU -->
+    <!-- ============================================================ -->
+    <div id="tab-search" class="tab-content">
+
+        <div class="box">
+            <div class="box-title">🔍 TRA CỨU UID</div>
+
+            <div class="search-row">
+                <input type="text" id="searchUID" placeholder="Nhập UID để tra cứu...">
+                <button onclick="searchUID()">Tra Cứu</button>
+            </div>
+
+            <div id="searchResult" style="margin-top:12px;"></div>
         </div>
     </div>
 
-    <!-- FOOTER -->
-    <div class="footer">
-        <a href="#" onclick="openKeyGen()">🔑 Tạo key mới</a> · v2.0.1
+    <!-- ============================================================ -->
+    <!-- TAB 3: LỊCH SỬ -->
+    <!-- ============================================================ -->
+    <div id="tab-history" class="tab-content">
+
+        <div class="box">
+            <div class="box-title">📜 LỊCH SỬ KÍCH HOẠT</div>
+
+            <div id="historyList">
+                <div class="history-empty">Chưa có lịch sử kích hoạt</div>
+            </div>
+
+            <button class="btn-danger-outline mt-8" onclick="clearHistory()">🗑️ Xóa tất cả</button>
+        </div>
     </div>
 
 </div>
 
 <script>
     // ============================================================
-    // PROXY LOGIN SYSTEM - GIAO DIỆN TRẮNG
+    // NP PROXY - FULL SYSTEM
     // ============================================================
 
     // Firebase config
     const FIREBASE_DB_URL = "https://severkeytlong-default-rtdb.asia-southeast1.firebasedatabase.app";
+    const ADMIN_ZALO = "0976457016";
 
-    // Certificate content
-    const MITM_CERT = `-----BEGIN CERTIFICATE-----
-MIIDNTCCAh2gAwIBAgIURMk1z2OJFui0cYQeL/qTk60QjAQwDQYJKoZIhvcNAQEL
-BQAwKDESMBAGA1UEAwwJbWl0bXByb3h5MRIwEAYDVQQKDAltaXRtcHJveHkwHhcN
-MjYwNzAyMTcxNDIwWhcNMzYwNjI5MTcxNDIwWjAoMRIwEAYDVQQDDAltaXRtcHJv
-eHkxEjAQBgNVBAoMCW1pdG1wcm94eTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
-AQoCggEBAMYETRbPTNCGEpRncBVVieDW+7ATBq4KsqKfSs+7aONbafHHzDjNZdab
-5mlzd1KmFfa6jaSGbtzsG1NRgu2BbtQ3a0h5+Sy8QCJ1h/L21hnZ6WpNqh5CGhU3
-Pfr165OF7t03D0rVfwlXHkzB3sxYqPStd0CtVMKFia3l6w1cgvGqZnEP14heveOl
-ecjTEHFQdcaWUSwit/w+wgrx80L0dRl00654GTPlIgEij0qCEs0QICc6xL+wQhdf
-7FU6HTazk/58y3Bu1+dUiRhUG0egGX9Z5ij61yG8sJOtfYInjxrS1Qs4O2UYBILj
-0j3+j8noTFjmOLoUBiciRUWpEf4DdWsCAwEAAaNXMFUwDwYDVR0TAQH/BAUwAwEB
-/zATBgNVHSUEDDAKBggrBgEFBQcDATAOBgNVHQ8BAf8EBAMCAQYwHQYDVR0OBBYE
-FBnqRLsj0LkmrZwllNq54YllFJMgMA0GCSqGSIb3DQEBCwUAA4IBAQAvkwGTj8ve
-ctwcEf3Cv/Hud61aPuV6dIwb1jgh0W7g6TbA4FQbVQiTnB8pNkjFYfmjOhFnIFj4
-THysKpC/gQY3kW5wOGOATEdn+Cu603KK8Ul9kIiEzvIcMtcmTa3CErEgOQsbixDv
-mlt6vHaCVKdtHXCdYrBlcd/tnBcnQ4cIlQBqNY50gjsogNCIRc4LeisaSByc0xTo
-3vb8JFuySmvyFfrheVx42JivUNQ104VwA3ZwLHIyjE6chfC8Qfai9MIeAwNN277r
-XUk/IjMvCsmPgacd1Alg8FAsmcKCRnPhpqu/uEKt7R/neJ1yX30aEJWb7estxpnh
-vMSwqzfovfO3
------END CERTIFICATE-----`;
+    // VPN Ports
+    const VPN_PORTS = {
+        'AimDrag': '180.93.32.64:1700',
+        'AimBodyAntena': '180.93.32.64:1701',
+        'Aim Body': '180.93.32.64:1703',
+        'Aim neck': '180.93.32.64:1704',
+        'Aim neck+antenna': '180.93.32.64:1706'
+    };
 
     // ============================================================
-    // DEVICE ID
+    // TAB SWITCH
     // ============================================================
-    function getDeviceId() {
-        let id = localStorage.getItem('proxy_device_id');
-        if (!id) {
-            id = 'dev_' + Date.now().toString(36) + '_' + Math.random().toString(36).substring(2, 6);
-            localStorage.setItem('proxy_device_id', id);
-        }
-        return id;
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
+        document.getElementById(`tab-${tab}`).classList.add('active');
     }
-    document.getElementById('deviceId').textContent = getDeviceId();
 
     // ============================================================
-    // ĐĂNG NHẬP PROXY
+    // CHECK & ACTIVATE
     // ============================================================
-    async function loginProxy() {
-        const key = document.getElementById('keyInput').value.trim().toUpperCase();
-        const resultBox = document.getElementById('resultBox');
-        const resultText = document.getElementById('resultText');
-        const loginBtn = document.getElementById('loginBtn');
-        const dot = document.getElementById('statusDot');
-        const statusText = document.getElementById('statusText');
+    let currentKeyData = null;
+    let currentKey = '';
+
+    async function checkAndActivate() {
+        const key = document.getElementById('activateKey').value.trim().toUpperCase();
+        const msgEl = document.getElementById('activateMsg');
 
         if (!key) {
-            resultBox.className = 'result-box error';
-            resultText.innerHTML = '⚠️ Vui lòng nhập key!';
+            msgEl.textContent = '⚠️ Vui lòng nhập key!';
+            msgEl.style.color = '#ef4444';
             return;
         }
 
-        loginBtn.disabled = true;
-        loginBtn.textContent = '⏳ Đang kiểm tra...';
-        resultBox.className = 'result-box';
-        resultText.textContent = '⏳ Đang xác thực key...';
+        msgEl.textContent = '⏳ Đang kiểm tra key...';
+        msgEl.style.color = '#8a8a9a';
 
         try {
             const safeKey = key.replace(/-/g, '_');
@@ -452,98 +587,355 @@ vMSwqzfovfO3
             const data = await response.json();
 
             if (!data) {
-                resultBox.className = 'result-box error';
-                resultText.innerHTML = '❌ Key không tồn tại!';
-                loginBtn.disabled = false;
-                loginBtn.textContent = '🌐 KẾT NỐI PROXY';
+                msgEl.textContent = '❌ Key không tồn tại!';
+                msgEl.style.color = '#ef4444';
                 return;
             }
 
             const now = Date.now();
             if (!data.active) {
-                resultBox.className = 'result-box error';
-                resultText.innerHTML = '❌ Key đã bị khóa!';
-                loginBtn.disabled = false;
-                loginBtn.textContent = '🌐 KẾT NỐI PROXY';
+                msgEl.textContent = '❌ Key đã bị khóa!';
+                msgEl.style.color = '#ef4444';
                 return;
             }
             if (data.expire < now) {
-                resultBox.className = 'result-box error';
-                resultText.innerHTML = '⛔ Key đã hết hạn!';
-                loginBtn.disabled = false;
-                loginBtn.textContent = '🌐 KẾT NỐI PROXY';
+                msgEl.textContent = '⛔ Key đã hết hạn!';
+                msgEl.style.color = '#ef4444';
                 return;
             }
 
-            // Lưu key
-            localStorage.setItem('proxy_key', key);
-            localStorage.setItem('proxy_expire', data.expire);
+            // Key hợp lệ
+            currentKey = key;
+            currentKeyData = data;
 
-            // Thành công
-            resultBox.className = 'result-box success';
-            const expireDate = new Date(data.expire);
-            resultText.innerHTML = `
-                ✅ Kết nối thành công!<br>
-                🔑 <span class="highlight">${key}</span><br>
-                📅 Hết hạn: ${expireDate.toLocaleDateString('vi-VN')} ${expireDate.toLocaleTimeString('vi-VN')}
-            `;
+            // Hiển thị thông tin key
+            const infoDisplay = document.getElementById('keyInfoDisplay');
+            infoDisplay.classList.remove('hidden');
 
-            dot.className = 'status-dot online';
-            statusText.innerHTML = '🟢 Đã kết nối · <strong>' + key + '</strong>';
-            document.getElementById('certStatus').innerHTML = '<span class="check">✓</span> Đã kích hoạt';
+            const days = data.days || 0;
+            const typeLabel = getTypeLabel(data.type || '1d');
+            const devices = data.devices ? Object.keys(data.devices).length : 0;
+            const maxDevices = data.maxDevices || 1;
 
-            showToast('✅ Đã kết nối proxy với key: ' + key);
+            document.getElementById('dispKey').textContent = key;
+            document.getElementById('dispType').textContent = typeLabel;
+            document.getElementById('dispSlot').textContent = `${devices}/${maxDevices} còn trống`;
+            document.getElementById('dispActivated').textContent = data.created ? new Date(data.created).toLocaleString('vi-VN') : '---';
+
+            const remain = Math.floor((data.expire - now) / (24*60*60*1000));
+            document.getElementById('dispRemain').textContent = remain > 0 ? `${remain} ngày` : 'Hết hạn';
+
+            // Hiển thị VPN info
+            document.getElementById('vpnInfoDisplay').classList.remove('hidden');
+
+            // Hiển thị UID section
+            document.getElementById('uidSection').classList.remove('hidden');
+            document.getElementById('downloadSection').classList.add('hidden');
+
+            msgEl.textContent = '✅ Key hợp lệ! Vui lòng nhập UID để kích hoạt.';
+            msgEl.style.color = '#22c55e';
+
+            // Bước tiến
+            updateSteps(2);
 
         } catch (error) {
-            resultBox.className = 'result-box error';
-            resultText.innerHTML = '❌ Lỗi kết nối: ' + error.message;
-        }
-
-        loginBtn.disabled = false;
-        loginBtn.textContent = '🌐 KẾT NỐI PROXY';
-    }
-
-    // ============================================================
-    // KIỂM TRA KEY ĐÃ LƯU
-    // ============================================================
-    function checkSavedKey() {
-        const savedKey = localStorage.getItem('proxy_key');
-        const expire = localStorage.getItem('proxy_expire');
-
-        if (savedKey && expire && parseInt(expire) > Date.now()) {
-            document.getElementById('keyInput').value = savedKey;
-            document.getElementById('statusDot').className = 'status-dot online';
-            document.getElementById('statusText').innerHTML = '🟢 Đã kết nối · <strong>' + savedKey + '</strong>';
-            document.getElementById('certStatus').innerHTML = '<span class="check">✓</span> Đã kích hoạt';
-        } else {
-            localStorage.removeItem('proxy_key');
-            localStorage.removeItem('proxy_expire');
+            msgEl.textContent = '❌ Lỗi kết nối: ' + error.message;
+            msgEl.style.color = '#ef4444';
         }
     }
 
     // ============================================================
-    // TẢI CHỨNG CHỈ
+    // ACTIVATE UID
     // ============================================================
-    function downloadCert() {
-        const blob = new Blob([MITM_CERT], { type: 'application/x-x509-ca-cert' });
+    async function activateUID() {
+        const uid = document.getElementById('uidInput').value.trim();
+        const msgEl = document.getElementById('activateMsg');
+
+        if (!uid) {
+            msgEl.textContent = '⚠️ Vui lòng nhập UID!';
+            msgEl.style.color = '#ef4444';
+            return;
+        }
+
+        if (!currentKey || !currentKeyData) {
+            msgEl.textContent = '⚠️ Vui lòng kiểm tra key trước!';
+            msgEl.style.color = '#ef4444';
+            return;
+        }
+
+        const safeKey = currentKey.replace(/-/g, '_');
+
+        try {
+            // Kiểm tra UID đã tồn tại chưa
+            const devices = currentKeyData.devices || {};
+            const deviceIds = Object.keys(devices);
+
+            // Kiểm tra UID đã được kích hoạt chưa
+            if (deviceIds.includes(uid)) {
+                msgEl.textContent = '✅ UID đã được kích hoạt trước đó!';
+                msgEl.style.color = '#22c55e';
+                showToast('✅ UID đã được kích hoạt!');
+                updateSteps(3);
+                document.getElementById('uidSection').classList.add('hidden');
+                document.getElementById('downloadSection').classList.remove('hidden');
+                addHistory(currentKey, uid, 'Kích hoạt thành công');
+                return;
+            }
+
+            // Kiểm tra slot
+            if (deviceIds.length >= (currentKeyData.maxDevices || 1)) {
+                msgEl.textContent = '❌ Key đã đạt giới hạn thiết bị!';
+                msgEl.style.color = '#ef4444';
+                return;
+            }
+
+            // Lưu UID vào Firebase
+            const updateData = {
+                ...currentKeyData,
+                devices: {
+                    ...devices,
+                    [uid]: Date.now()
+                }
+            };
+
+            const response = await fetch(`${FIREBASE_DB_URL}/keys/${safeKey}.json`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updateData)
+            });
+
+            if (!response.ok) throw new Error('Lỗi lưu UID');
+
+            // Cập nhật lại data
+            currentKeyData = updateData;
+
+            msgEl.textContent = '✅ Kích hoạt thành công!';
+            msgEl.style.color = '#22c55e';
+            showToast('✅ Kích hoạt UID thành công!');
+
+            updateSteps(3);
+            document.getElementById('uidSection').classList.add('hidden');
+            document.getElementById('downloadSection').classList.remove('hidden');
+
+            // Cập nhật slot
+            const devices2 = Object.keys(updateData.devices || {});
+            document.getElementById('dispSlot').textContent = `${devices2.length}/${updateData.maxDevices || 1} còn trống`;
+
+            // Lưu lịch sử
+            addHistory(currentKey, uid, 'Kích hoạt thành công');
+
+        } catch (error) {
+            msgEl.textContent = '❌ Lỗi: ' + error.message;
+            msgEl.style.color = '#ef4444';
+        }
+    }
+
+    // ============================================================
+    // DOWNLOAD CONFIG
+    // ============================================================
+    function downloadConfig() {
+        if (!currentKey) {
+            showToast('⚠️ Chưa có key để tải config!');
+            return;
+        }
+
+        const config = `<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+        <plist version="1.0">
+        <dict>
+            <key>PayloadType</key>
+            <string>Configuration</string>
+            <key>PayloadVersion</key>
+            <integer>1</integer>
+            <key>PayloadIdentifier</key>
+            <string>com.npproxy.config</string>
+            <key>PayloadUUID</key>
+            <string>${currentKey.replace(/-/g, '')}</string>
+            <key>PayloadDisplayName</key>
+            <string>🎯 NP PROXY</string>
+            <key>PayloadDescription</key>
+            <string>• NP PROXY - Key: ${currentKey}
+        • Hỗ trợ cổng: 1700, 1701, 1703, 1704, 1706
+        • Liên hệ Admin: ${ADMIN_ZALO}</string>
+            <key>PayloadOrganization</key>
+            <string>NP PROXY</string>
+            <key>PayloadContent</key>
+            <array>
+                <dict>
+                    <key>PayloadType</key>
+                    <string>com.apple.webClip.managed</string>
+                    <key>PayloadVersion</key>
+                    <integer>1</integer>
+                    <key>PayloadIdentifier</key>
+                    <string>com.npproxy.webclip</string>
+                    <key>PayloadUUID</key>
+                    <string>${currentKey.replace(/-/g, '')}-web</string>
+                    <key>PayloadDisplayName</key>
+                    <string>NP PROXY</string>
+                    <key>URL</key>
+                    <string>https://npproxy.local/?key=${currentKey}</string>
+                    <key>Label</key>
+                    <string>NP PROXY</string>
+                    <key>IsRemovable</key>
+                    <true/>
+                    <key>FullScreen</key>
+                    <true/>
+                </dict>
+            </array>
+        </dict>
+        </plist>`;
+
+        const blob = new Blob([config], { type: 'application/x-apple-aspen-config' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = 'mitmproxy-ca-cert.crt';
+        a.download = `NP_PROXY_${currentKey}.mobileconfig`;
         a.click();
         URL.revokeObjectURL(a.href);
-        showToast('📦 Đã tải chứng chỉ! Hãy cài trên iPhone.');
+        showToast('📦 Đã tải config!');
     }
 
     // ============================================================
-    // MỞ APP TẠO KEY
+    // RESET ACTIVATION
     // ============================================================
-    function openKeyGen() {
-        window.open('keygen.html', '_blank');
+    function resetActivation() {
+        currentKey = '';
+        currentKeyData = null;
+        document.getElementById('keyInfoDisplay').classList.add('hidden');
+        document.getElementById('vpnInfoDisplay').classList.add('hidden');
+        document.getElementById('uidSection').classList.add('hidden');
+        document.getElementById('downloadSection').classList.add('hidden');
+        document.getElementById('uidInput').value = '';
+        document.getElementById('activateMsg').textContent = '';
+        document.getElementById('activateKey').value = '';
+        updateSteps(1);
+        showToast('🔄 Đã reset, sẵn sàng nhập key mới');
     }
 
     // ============================================================
-    // TOAST
+    // SEARCH UID
     // ============================================================
+    async function searchUID() {
+        const uid = document.getElementById('searchUID').value.trim();
+        const resultEl = document.getElementById('searchResult');
+
+        if (!uid) {
+            resultEl.innerHTML = '<div style="color:#ef4444;font-size:13px;">⚠️ Vui lòng nhập UID!</div>';
+            return;
+        }
+
+        resultEl.innerHTML = '<div style="color:#8a8a9a;font-size:13px;">⏳ Đang tìm kiếm...</div>';
+
+        try {
+            const response = await fetch(`${FIREBASE_DB_URL}/keys.json`);
+            const data = await response.json();
+
+            if (!data) {
+                resultEl.innerHTML = '<div style="color:#8a8a9a;font-size:13px;">❌ Không tìm thấy UID</div>';
+                return;
+            }
+
+            let found = false;
+            let html = '';
+
+            Object.keys(data).forEach(k => {
+                const d = data[k];
+                const devices = d.devices || {};
+                if (devices[uid]) {
+                    found = true;
+                    const typeLabel = getTypeLabel(d.type || '1d');
+                    const isExpired = d.expire < Date.now();
+                    html += `
+                        <div class="key-info-card" style="margin-top:8px;">
+                            <div class="row"><span class="label">Key:</span><span class="value blue">${k.replace(/_/g, '-')}</span></div>
+                            <div class="row"><span class="label">Loại:</span><span class="value">${typeLabel}</span></div>
+                            <div class="row"><span class="label">Trạng thái:</span><span class="value ${isExpired ? 'red' : 'green'}">${isExpired ? '⛔ Hết hạn' : '✅ Hoạt động'}</span></div>
+                            <div class="row"><span class="label">Kích hoạt:</span><span class="value">${new Date(devices[uid]).toLocaleString('vi-VN')}</span></div>
+                        </div>
+                    `;
+                }
+            });
+
+            if (found) {
+                resultEl.innerHTML = `<div style="font-size:13px;font-weight:600;color:#1a1a2e;margin-bottom:6px;">🔍 Kết quả cho UID: <span style="color:#4a6cf7;">${uid}</span></div>${html}`;
+            } else {
+                resultEl.innerHTML = '<div style="color:#8a8a9a;font-size:13px;">❌ Không tìm thấy UID trong hệ thống</div>';
+            }
+
+        } catch (error) {
+            resultEl.innerHTML = `<div style="color:#ef4444;font-size:13px;">❌ Lỗi: ${error.message}</div>`;
+        }
+    }
+
+    // ============================================================
+    // HISTORY
+    // ============================================================
+    function addHistory(key, uid, action) {
+        let history = JSON.parse(localStorage.getItem('np_proxy_history') || '[]');
+        history.unshift({
+            key: key,
+            uid: uid,
+            action: action,
+            time: new Date().toLocaleString('vi-VN'),
+            timestamp: Date.now()
+        });
+        // Giữ tối đa 50 records
+        if (history.length > 50) history = history.slice(0, 50);
+        localStorage.setItem('np_proxy_history', JSON.stringify(history));
+        renderHistory();
+    }
+
+    function renderHistory() {
+        const container = document.getElementById('historyList');
+        const history = JSON.parse(localStorage.getItem('np_proxy_history') || '[]');
+
+        if (history.length === 0) {
+            container.innerHTML = '<div class="history-empty">Chưa có lịch sử kích hoạt</div>';
+            return;
+        }
+
+        let html = '';
+        history.forEach(h => {
+            html += `
+                <div class="history-item">
+                    <span class="h-key">${h.key}</span>
+                    <span class="h-info">${h.uid} · ${h.action}</span>
+                    <span class="h-time">${h.time}</span>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function clearHistory() {
+        if (confirm('Xóa tất cả lịch sử?')) {
+            localStorage.removeItem('np_proxy_history');
+            renderHistory();
+            showToast('🗑️ Đã xóa lịch sử');
+        }
+    }
+
+    // ============================================================
+    // HELPERS
+    // ============================================================
+    function getTypeLabel(type) {
+        const map = {
+            'vip': '⭐ Vĩnh Viễn',
+            '1m': '📅 1 Tháng',
+            '3m': '📅 3 Tháng',
+            '2m': '📅 2 Tháng',
+            '1w': '📅 1 Tuần',
+            '1d': '📅 1 Ngày'
+        };
+        return map[type] || type;
+    }
+
+    function updateSteps(step) {
+        for (let i = 1; i <= 3; i++) {
+            const el = document.getElementById(`step${i}`);
+            el.classList.toggle('active', i === step);
+        }
+    }
+
     function showToast(msg) {
         const existing = document.querySelector('.toast');
         if (existing) existing.remove();
@@ -557,11 +949,12 @@ vMSwqzfovfO3
     }
 
     // ============================================================
-    // KHỞI TẠO
+    // INIT
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-        checkSavedKey();
-        console.log('🔐 PROXY LOGIN loaded');
+        renderHistory();
+        console.log('🔐 NP PROXY loaded');
+        console.log('📞 Admin:', ADMIN_ZALO);
     });
 </script>
 
