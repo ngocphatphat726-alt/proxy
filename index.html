@@ -3,198 +3,424 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NP PROXY</title>
-    <!-- OBFUSCATED CSS - Minified -->
+    <title>NP PROXY - Người dùng</title>
     <style>
-        *{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
-        body{background:#f5f7fa;min-height:100vh;padding:12px;color:#1a1a2e}
-        .container{width:100%;max-width:440px;margin:auto}
-        .app-header{text-align:center;padding:8px 0 12px 0}
-        .app-header h1{font-size:28px;font-weight:800;color:#1a1a2e;letter-spacing:1px}
-        .app-header h1 span{color:#4a6cf7}
-        .app-header .sub{font-size:11px;color:#8a8a9a;letter-spacing:3px;text-transform:uppercase;margin-top:2px}
-        .tabs{display:flex;gap:4px;background:#fff;border-radius:14px;padding:4px;border:1px solid #e8ecf1;margin-bottom:12px}
-        .tab-btn{flex:1;padding:10px 0;border:none;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;transition:.25s;background:transparent;color:#8a8a9a}
-        .tab-btn.active{background:#4a6cf7;color:#fff}
-        .tab-btn:active{transform:scale(.96)}
-        .tab-content{display:none}.tab-content.active{display:block}
-        .box{background:#fff;border-radius:18px;padding:20px 16px;border:1px solid #e8ecf1;box-shadow:0 2px 12px rgba(0,0,0,.03);margin-top:12px}
-        .box-title{font-size:11px;font-weight:700;color:#8a8a9a;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px}
-        .input-group{margin-bottom:12px}
-        .input-group label{display:block;font-size:13px;font-weight:600;color:#3a3a4a;margin-bottom:4px}
-        .input-group input{width:100%;padding:12px 14px;border-radius:12px;border:1.5px solid #e8ecf1;background:#f8f9fc;color:#1a1a2e;font-size:14px;outline:none;transition:.2s;text-transform:uppercase}
-        .input-group input:focus{border-color:#4a6cf7;background:#fff;box-shadow:0 0 0 4px rgba(74,108,247,.05)}
-        .input-group input::placeholder{text-transform:none}
-        .btn-primary{width:100%;padding:13px;border:none;border-radius:12px;font-weight:700;font-size:14px;cursor:pointer;color:#fff;background:#4a6cf7;transition:.2s;box-shadow:0 4px 14px rgba(74,108,247,.12)}
-        .btn-primary:active{transform:scale(.97)}
-        .btn-success{background:#22c55e;box-shadow:0 4px 14px rgba(34,197,94,.12)}
-        .btn-outline{background:#f8f9fc;border:1.5px solid #e8ecf1;color:#3a3a4a;padding:10px;border-radius:12px;font-weight:600;font-size:13px;cursor:pointer;transition:.2s;width:100%}
-        .btn-outline:active{transform:scale(.97)}
-        .flex-row{display:flex;gap:8px}.flex-row button{flex:1}
-        .mt-8{margin-top:8px}.mt-12{margin-top:12px}.text-center{text-align:center}
-        .hidden{display:none!important}
-        .key-info-card{background:#f8f9fc;border-radius:14px;padding:14px 16px;border:1px solid #e8ecf1;margin-top:10px}
-        .key-info-card .row{display:flex;justify-content:space-between;padding:4px 0;font-size:13px;border-bottom:1px solid #f1f3f5}
-        .key-info-card .row:last-child{border-bottom:none}
-        .key-info-card .label{color:#8a8a9a}
-        .key-info-card .value{color:#1a1a2e;font-weight:600}
-        .key-info-card .value.gold{color:#f59e0b}
-        .key-info-card .value.green{color:#22c55e}
-        .key-info-card .value.blue{color:#4a6cf7}
-        .key-info-card .value.red{color:#ef4444}
-        .vpn-list{margin-top:10px}
-        .vpn-item{display:flex;justify-content:space-between;padding:6px 0;font-size:13px;border-bottom:1px solid #f1f3f5;font-family:monospace;color:#3a3a4a}
-        .vpn-item:last-child{border-bottom:none}
-        .vpn-item .vpn-name{color:#8a8a9a;font-family:-apple-system,'Segoe UI',sans-serif}
-        .vpn-item .vpn-addr{color:#4a6cf7;font-weight:600}
-        .status-box{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#f8f9fc;border-radius:12px;border:1px solid #e8ecf1;margin-top:10px}
-        .status-dot{width:10px;height:10px;border-radius:50%;background:#d1d5db;transition:.3s}
-        .status-dot.online{background:#22c55e;box-shadow:0 0 12px rgba(34,197,94,.2)}
-        .status-dot.offline{background:#ef4444}
-        .status-text{font-size:13px;color:#6a6a7a}
-        .status-text strong{color:#1a1a2e}
-        .steps{display:flex;gap:6px;margin-bottom:14px}
-        .step-item{flex:1;text-align:center;padding:6px 0;font-size:11px;font-weight:600;color:#b0b0c0;border-bottom:2px solid #e8ecf1;transition:.2s}
-        .step-item.active{color:#4a6cf7;border-bottom-color:#4a6cf7}
-        .step-item .num{display:block;font-size:9px;color:#b0b0c0;font-weight:400}
-        .step-item.active .num{color:#4a6cf7}
-        .history-item{display:flex;justify-content:space-between;padding:8px 12px;border-bottom:1px solid #f1f3f5;font-size:12px}
-        .history-item:last-child{border-bottom:none}
-        .history-item .h-key{font-family:monospace;color:#4a6cf7;font-weight:600}
-        .history-item .h-info{color:#8a8a9a}
-        .history-item .h-time{color:#b0b0c0;font-size:10px}
-        .history-empty{text-align:center;padding:20px 0;color:#b0b0c0;font-size:13px}
-        .search-row{display:flex;gap:8px}
-        .search-row input{flex:1;padding:12px 14px;border-radius:12px;border:1.5px solid #e8ecf1;background:#f8f9fc;color:#1a1a2e;font-size:14px;outline:none;transition:.2s}
-        .search-row input:focus{border-color:#4a6cf7}
-        .search-row button{padding:12px 18px;border:none;border-radius:12px;font-weight:700;font-size:13px;cursor:pointer;color:#fff;background:#4a6cf7;transition:.2s}
-        .search-row button:active{transform:scale(.95)}
-        .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1a1a2e;color:#fff;padding:10px 24px;border-radius:30px;font-size:13px;z-index:9999;box-shadow:0 4px 30px rgba(0,0,0,.15);text-align:center;max-width:90%;animation:toastAnim 2.2s ease forwards}
-        @keyframes toastAnim{0%{opacity:0;transform:translateX(-50%) translateY(20px)}15%{opacity:1;transform:translateX(-50%) translateY(0)}85%{opacity:1;transform:translateX(-50%) translateY(0)}100%{opacity:0;transform:translateX(-50%) translateY(-10px)}}
-        @media(max-width:400px){.box{padding:14px 12px}.input-group input{font-size:13px;padding:10px 12px}.btn-primary{font-size:13px;padding:12px}.tab-btn{font-size:11px;padding:8px 0}.vpn-item{font-size:12px}.key-info-card .row{font-size:12px}}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #f5f7fa;
+            min-height: 100vh;
+            padding: 12px;
+            color: #1a1a2e;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 440px;
+            margin: auto;
+        }
+
+        .app-header {
+            text-align: center;
+            padding: 8px 0 12px 0;
+        }
+        .app-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1a1a2e;
+            letter-spacing: 1px;
+        }
+        .app-header h1 span {
+            color: #4a6cf7;
+        }
+        .app-header .sub {
+            font-size: 11px;
+            color: #8a8a9a;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* TABS */
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: #ffffff;
+            border-radius: 14px;
+            padding: 4px;
+            border: 1px solid #e8ecf1;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px 0;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.25s;
+            background: transparent;
+            color: #8a8a9a;
+        }
+        .tab-btn.active {
+            background: #4a6cf7;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(74,108,247,0.2);
+        }
+        .tab-btn:active {
+            transform: scale(0.96);
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* BOX */
+        .box {
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 20px 16px;
+            border: 1px solid #e8ecf1;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+            margin-top: 12px;
+        }
+
+        .box-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #8a8a9a;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+        }
+
+        .input-group {
+            margin-bottom: 12px;
+        }
+        .input-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #3a3a4a;
+            margin-bottom: 4px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1.5px solid #e8ecf1;
+            background: #f8f9fc;
+            color: #1a1a2e;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+        .input-group input:focus {
+            border-color: #4a6cf7;
+            background: #ffffff;
+            box-shadow: 0 0 0 4px rgba(74,108,247,0.05);
+        }
+        .input-group input::placeholder {
+            text-transform: none;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            color: #fff;
+            background: #4a6cf7;
+            transition: 0.2s;
+            box-shadow: 0 4px 14px rgba(74,108,247,0.12);
+        }
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+        .btn-success {
+            background: #22c55e;
+            box-shadow: 0 4px 14px rgba(34,197,94,0.12);
+        }
+        .btn-outline {
+            background: #f8f9fc;
+            border: 1.5px solid #e8ecf1;
+            color: #3a3a4a;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .btn-outline:active {
+            transform: scale(0.97);
+        }
+        .btn-danger-outline {
+            background: #fef2f2;
+            border: 1.5px solid #fecaca;
+            color: #ef4444;
+            padding: 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+        }
+        .btn-danger-outline:active {
+            transform: scale(0.97);
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 8px;
+        }
+        .flex-row button {
+            flex: 1;
+        }
+
+        .mt-8 { margin-top: 8px; }
+        .mt-12 { margin-top: 12px; }
+        .text-center { text-align: center; }
+        .hidden { display: none !important; }
+
+        /* KEY INFO CARD */
+        .key-info-card {
+            background: #f8f9fc;
+            border-radius: 14px;
+            padding: 14px 16px;
+            border: 1px solid #e8ecf1;
+            margin-top: 10px;
+        }
+        .key-info-card .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #f1f3f5;
+        }
+        .key-info-card .row:last-child {
+            border-bottom: none;
+        }
+        .key-info-card .label {
+            color: #8a8a9a;
+        }
+        .key-info-card .value {
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+        .key-info-card .value.gold {
+            color: #f59e0b;
+        }
+        .key-info-card .value.green {
+            color: #22c55e;
+        }
+        .key-info-card .value.blue {
+            color: #4a6cf7;
+        }
+
+        /* VPN INFO */
+        .vpn-list {
+            margin-top: 10px;
+        }
+        .vpn-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            font-size: 13px;
+            border-bottom: 1px solid #f1f3f5;
+            font-family: monospace;
+            color: #3a3a4a;
+        }
+        .vpn-item:last-child {
+            border-bottom: none;
+        }
+        .vpn-item .vpn-name {
+            color: #8a8a9a;
+            font-family: -apple-system, 'Segoe UI', sans-serif;
+        }
+        .vpn-item .vpn-addr {
+            color: #4a6cf7;
+            font-weight: 600;
+        }
+
+        /* STATUS */
+        .status-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #f8f9fc;
+            border-radius: 12px;
+            border: 1px solid #e8ecf1;
+            margin-top: 10px;
+        }
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #d1d5db;
+            transition: 0.3s;
+        }
+        .status-dot.online {
+            background: #22c55e;
+            box-shadow: 0 0 12px rgba(34,197,94,0.2);
+        }
+        .status-dot.offline {
+            background: #ef4444;
+        }
+        .status-text {
+            font-size: 13px;
+            color: #6a6a7a;
+        }
+        .status-text strong {
+            color: #1a1a2e;
+        }
+
+        /* HISTORY */
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f1f3f5;
+            font-size: 12px;
+        }
+        .history-item:last-child {
+            border-bottom: none;
+        }
+        .history-item .h-key {
+            font-family: monospace;
+            color: #4a6cf7;
+            font-weight: 600;
+        }
+        .history-item .h-info {
+            color: #8a8a9a;
+        }
+        .history-item .h-time {
+            color: #b0b0c0;
+            font-size: 10px;
+        }
+        .history-empty {
+            text-align: center;
+            padding: 20px 0;
+            color: #b0b0c0;
+            font-size: 13px;
+        }
+
+        /* SEARCH */
+        .search-row {
+            display: flex;
+            gap: 8px;
+        }
+        .search-row input {
+            flex: 1;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1.5px solid #e8ecf1;
+            background: #f8f9fc;
+            color: #1a1a2e;
+            font-size: 14px;
+            outline: none;
+            transition: 0.2s;
+        }
+        .search-row input:focus {
+            border-color: #4a6cf7;
+        }
+        .search-row button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 13px;
+            cursor: pointer;
+            color: #fff;
+            background: #4a6cf7;
+            transition: 0.2s;
+        }
+        .search-row button:active {
+            transform: scale(0.95);
+        }
+
+        /* STEPS */
+        .steps {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 14px;
+        }
+        .step-item {
+            flex: 1;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 11px;
+            font-weight: 600;
+            color: #b0b0c0;
+            border-bottom: 2px solid #e8ecf1;
+            transition: 0.2s;
+        }
+        .step-item.active {
+            color: #4a6cf7;
+            border-bottom-color: #4a6cf7;
+        }
+        .step-item .num {
+            display: block;
+            font-size: 9px;
+            color: #b0b0c0;
+            font-weight: 400;
+        }
+        .step-item.active .num {
+            color: #4a6cf7;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1a1a2e;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 13px;
+            z-index: 9999;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.15);
+            text-align: center;
+            max-width: 90%;
+            animation: toastAnim 2.2s ease forwards;
+        }
+        @keyframes toastAnim {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+        }
+
+        @media (max-width: 400px) {
+            .box { padding: 14px 12px; }
+            .input-group input { font-size: 13px; padding: 10px 12px; }
+            .btn-primary { font-size: 13px; padding: 12px; }
+            .tab-btn { font-size: 11px; padding: 8px 0; }
+            .vpn-item { font-size: 12px; }
+        }
     </style>
 </head>
 <body>
 
-<!-- ANTI-DEBUG: Nếu mở DevTools sẽ tự động reload -->
-<script>
-// ============================================================
-// BẢO VỆ TỐI ƯU - CHỐNG DEBUG, CRACK, ĂN TRỘM DỮ LIỆU
-// ============================================================
-
-// 1. CHỐNG DEBUG - TỰ ĐỘNG RELOAD KHI MỞ DEVTOOLS
-(function() {
-    const start = performance.now();
-    function checkDevTools() {
-        const now = performance.now();
-        if (now - start > 100) {
-            // Phát hiện debug -> tự hủy
-            document.body.innerHTML = '';
-            alert('🚫 Phát hiện can thiệp! Hệ thống tự động khóa.');
-            window.location.reload();
-        }
-        requestAnimationFrame(checkDevTools);
-    }
-    // checkDevTools();
-})();
-
-// 2. CHỐNG INSPECT ELEMENT
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    return false;
-});
-
-document.addEventListener('keydown', function(e) {
-    // F12, Ctrl+Shift+I, Ctrl+U, Ctrl+S, Ctrl+C, Ctrl+X
-    if (e.key === 'F12' ||
-        (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'i')) ||
-        (e.ctrlKey && (e.key === 'u' || e.key === 'U')) ||
-        (e.ctrlKey && (e.key === 's' || e.key === 'S')) ||
-        (e.ctrlKey && (e.key === 'c' || e.key === 'C')) ||
-        (e.ctrlKey && (e.key === 'x' || e.key === 'X'))) {
-        e.preventDefault();
-        return false;
-    }
-});
-
-// 3. CHỐNG COPY/PASTE
-document.addEventListener('copy', function(e) {
-    e.preventDefault();
-    return false;
-});
-document.addEventListener('paste', function(e) {
-    e.preventDefault();
-    return false;
-});
-
-// 4. CHỐNG SELECT TEXT
-document.addEventListener('selectstart', function(e) {
-    e.preventDefault();
-    return false;
-});
-
-// 5. MÃ HÓA DỮ LIỆU - AES-256 SIMPLE ENCRYPTION
-const ENC_KEY = 'NP_PROXY_2026_SECURE_KEY_!@#$%^&*()';
-function encryptData(data) {
-    let result = '';
-    for (let i = 0; i < data.length; i++) {
-        const charCode = data.charCodeAt(i) ^ ENC_KEY.charCodeAt(i % ENC_KEY.length);
-        result += String.fromCharCode(charCode);
-    }
-    return btoa(result);
-}
-function decryptData(encrypted) {
-    const data = atob(encrypted);
-    let result = '';
-    for (let i = 0; i < data.length; i++) {
-        const charCode = data.charCodeAt(i) ^ ENC_KEY.charCodeAt(i % ENC_KEY.length);
-        result += String.fromCharCode(charCode);
-    }
-    return result;
-}
-
-// 6. LƯU TRỮ MÃ HÓA
-function secureSet(key, value) {
-    try {
-        localStorage.setItem('np_' + key, encryptData(value));
-    } catch(e) {}
-}
-function secureGet(key) {
-    try {
-        const data = localStorage.getItem('np_' + key);
-        if (data) return decryptData(data);
-        return null;
-    } catch(e) { return null; }
-}
-
-// 7. TỰ ĐỘNG XÓA SẠCH NẾU BỊ CAN THIỆP
-setInterval(function() {
-    const integrity = document.querySelector('.container');
-    if (!integrity) {
-        localStorage.clear();
-        window.location.reload();
-    }
-}, 5000);
-
-// 8. CHỐNG TẤN CÔNG XSS
-const originalInnerHTML = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
-Object.defineProperty(Element.prototype, 'innerHTML', {
-    get: function() { return originalInnerHTML.get.call(this); },
-    set: function(value) {
-        if (typeof value === 'string' && (value.includes('<script') || value.includes('onerror') || value.includes('onload'))) {
-            return;
-        }
-        originalInnerHTML.set.call(this, value);
-    }
-});
-
-console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
-</script>
-
-<!-- ============================================================ -->
-<!-- APP CONTENT -->
-<!-- ============================================================ -->
-<div class="container" id="appContainer">
+<div class="container">
 
     <div class="app-header">
         <h1>NP <span>PROXY</span></h1>
@@ -208,8 +434,12 @@ console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
         <button class="tab-btn" data-tab="history" onclick="switchTab('history')">Lịch Sử</button>
     </div>
 
+    <!-- ============================================================ -->
     <!-- TAB 1: KÍCH HOẠT -->
+    <!-- ============================================================ -->
     <div id="tab-activate" class="tab-content active">
+
+        <!-- STEPS -->
         <div class="steps">
             <div class="step-item active" id="step1"><span class="num">1.</span> Key</div>
             <div class="step-item" id="step2"><span class="num">2.</span> UID</div>
@@ -218,12 +448,15 @@ console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
 
         <div class="box">
             <div class="box-title">🔑 NHẬP KEY</div>
+
             <div class="input-group">
                 <label>ACCESS KEY</label>
                 <input type="text" id="loginKey" placeholder="VD: B90C888959" style="text-transform:uppercase;">
             </div>
+
             <button class="btn-primary" onclick="loginUser()">🔍 Kiểm Tra Key</button>
 
+            <!-- KEY INFO -->
             <div id="keyInfoDisplay" class="key-info-card hidden">
                 <div class="row"><span class="label">Key:</span><span class="value blue" id="dispKey">---</span></div>
                 <div class="row"><span class="label">Thời hạn:</span><span class="value" id="dispType">---</span></div>
@@ -233,6 +466,7 @@ console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
                 <div class="row"><span class="label">IP thiết bị:</span><span class="value blue" id="dispIP">---</span></div>
             </div>
 
+            <!-- VPN INFO -->
             <div id="vpnInfoDisplay" class="hidden" style="margin-top:12px;">
                 <div class="box-title" style="margin-bottom:6px;">📡 THÔNG TIN VPN:</div>
                 <div class="vpn-list">
@@ -244,6 +478,7 @@ console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
                 </div>
             </div>
 
+            <!-- UID INPUT -->
             <div id="uidSection" class="hidden" style="margin-top:14px;border-top:1px solid #e8ecf1;padding-top:14px;">
                 <div class="box-title">🎮 UID (TÀI KHOẢN GAME)</div>
                 <div class="input-group">
@@ -255,11 +490,13 @@ console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
                 </div>
             </div>
 
+            <!-- DOWNLOAD -->
             <div id="downloadSection" class="hidden" style="margin-top:14px;border-top:1px solid #e8ecf1;padding-top:14px;">
                 <button class="btn-success" onclick="downloadMitmConfig()">📦 Tải MITMROXY</button>
                 <button class="btn-outline mt-8" onclick="resetActivation()">🔄 Kích hoạt key khác</button>
             </div>
 
+            <!-- STATUS -->
             <div class="status-box">
                 <span class="status-dot" id="statusDot"></span>
                 <span class="status-text" id="statusText">Chưa kết nối</span>
@@ -269,24 +506,36 @@ console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
         </div>
     </div>
 
+    <!-- ============================================================ -->
     <!-- TAB 2: TRA CỨU -->
+    <!-- ============================================================ -->
     <div id="tab-search" class="tab-content">
+
         <div class="box">
             <div class="box-title">🔍 TRA CỨU UID</div>
+
             <div class="search-row">
                 <input type="text" id="searchUID" placeholder="Nhập UID để tra cứu...">
                 <button onclick="searchUID()">Tra Cứu</button>
             </div>
+
             <div id="searchResult" style="margin-top:12px;"></div>
         </div>
     </div>
 
+    <!-- ============================================================ -->
     <!-- TAB 3: LỊCH SỬ -->
+    <!-- ============================================================ -->
     <div id="tab-history" class="tab-content">
+
         <div class="box">
             <div class="box-title">📜 LỊCH SỬ KÍCH HOẠT</div>
-            <div id="historyList"><div class="history-empty">Chưa có lịch sử kích hoạt</div></div>
-            <button class="btn-outline mt-8" onclick="clearHistory()" style="color:#ef4444;border-color:#fecaca;">🗑️ Xóa tất cả</button>
+
+            <div id="historyList">
+                <div class="history-empty">Chưa có lịch sử kích hoạt</div>
+            </div>
+
+            <button class="btn-danger-outline mt-8" onclick="clearHistory()">🗑️ Xóa tất cả</button>
         </div>
     </div>
 
@@ -294,85 +543,23 @@ console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
 
 <script>
 // ============================================================
-// NP PROXY - USER APP (BẢO MẬT TỐI ƯU NHẤT THẾ GIỚI)
+// NP PROXY - USER APP (Giao diện 3 tab + tính năng mới)
 // ============================================================
 
-// ============================================================
-// 1. CẤU HÌNH - TẤT CẢ ĐƯỢC MÃ HÓA VÀ ẨN
-// ============================================================
-
-// API Endpoint - Được mã hóa và giấu kín
-const _API_BASE = (function() {
-    // Mã hóa base64 ngược để giấu URL
-    const encoded = 'aHR0cHM6Ly9zZXZlcmtleXRsb25nLWRlZmF1bHQtcnRkYi5hc2lhLXNvdXRoZWFzdDEuZmlyZWJhc2VkYXRhYmFzZS5hcHAv';
-    return atob(encoded);
-})();
-
-// Không lưu trữ API Key trong client - sử dụng proxy server
-const _PROXY_ENDPOINT = '/api/proxy'; // Sẽ được xử lý bởi server
+const FIREBASE_DB_URL = "https://severkeytlong-default-rtdb.asia-southeast1.firebasedatabase.app";
+const ADMIN_ZALO = "0976457016";
+const PROXY_SERVER = "mitmproxy.local";
+const PROXY_PORT = "8080";
 
 // ============================================================
-// 2. HÀM GỌI API BẢO MẬT (KHÔNG LỘ API KEY)
+// STATE
 // ============================================================
-async function secureRequest(path, method = 'GET', data = null) {
-    const timestamp = Date.now();
-    const deviceId = secureGet('device_uid') || generateDeviceId();
-
-    // Tạo signature để xác thực
-    const signature = btoa(deviceId + ':' + timestamp + ':NP_PROXY_SECURE');
-
-    const options = {
-        method: method,
-        headers: {
-            'Content-Type': 'application/json',
-            'X-Device-ID': deviceId,
-            'X-Timestamp': timestamp,
-            'X-Signature': signature,
-            'X-App-Version': '3.0.1'
-        }
-    };
-
-    if (data) {
-        options.body = JSON.stringify(data);
-    }
-
-    try {
-        // Sử dụng proxy server thay vì gọi trực tiếp Firebase
-        const response = await fetch(_PROXY_ENDPOINT + '?path=' + encodeURIComponent(path), options);
-
-        if (!response.ok) {
-            throw new Error('Request failed');
-        }
-
-        return await response.json();
-    } catch (error) {
-        // Fallback: nếu proxy không hoạt động, thử direct (vẫn giấu key)
-        const fallbackUrl = _API_BASE + path + '.json';
-        const fallbackOptions = {
-            method: method,
-            headers: { 'Content-Type': 'application/json' }
-        };
-        if (data) {
-            fallbackOptions.body = JSON.stringify(data);
-        }
-        const fallbackResponse = await fetch(fallbackUrl, fallbackOptions);
-        return await fallbackResponse.json();
-    }
-}
+let currentKeyData = null;
+let currentKey = '';
 
 // ============================================================
-// 3. HÀM TIỆN ÍCH BẢO MẬT
+// LẤY IP THIẾT BỊ
 // ============================================================
-function generateDeviceId() {
-    const id = 'DEV-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
-    secureSet('device_uid', id);
-    return id;
-}
-
-function getDeviceId() {
-    return secureGet('device_uid') || generateDeviceId();
-}
-
 async function getDeviceIP() {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
@@ -384,24 +571,32 @@ async function getDeviceIP() {
 }
 
 // ============================================================
-// 4. STATE
+// LẤY UID THIẾT BỊ
 // ============================================================
-let currentKeyData = null;
-let currentKey = '';
+function getDeviceUID() {
+    let uid = localStorage.getItem('np_user_device_uid');
+    if (!uid) {
+        uid = 'DEV-' + Date.now().toString(36).toUpperCase() + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+        localStorage.setItem('np_user_device_uid', uid);
+    }
+    return uid;
+}
 
 // ============================================================
-// 5. TAB SWITCH
+// TAB SWITCH
 // ============================================================
 function switchTab(tab) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
     document.querySelector(`.tab-btn[data-tab="${tab}"]`).classList.add('active');
     document.getElementById(`tab-${tab}`).classList.add('active');
+
     if (tab === 'history') renderHistory();
 }
 
 // ============================================================
-// 6. ĐĂNG NHẬP / KÍCH HOẠT KEY (BẢO MẬT)
+// ĐĂNG NHẬP / KÍCH HOẠT KEY
 // ============================================================
 async function loginUser() {
     const key = document.getElementById('loginKey').value.trim().toUpperCase();
@@ -414,7 +609,7 @@ async function loginUser() {
     }
 
     if (!/^[0-9A-F]{10}$/.test(key)) {
-        msgEl.textContent = '⚠️ Key không đúng định dạng!';
+        msgEl.textContent = '⚠️ Key không đúng định dạng! (10 ký tự hex)';
         msgEl.style.color = '#ef4444';
         return;
     }
@@ -423,7 +618,8 @@ async function loginUser() {
     msgEl.style.color = '#8a8a9a';
 
     try {
-        const data = await secureRequest('keys/' + key);
+        const response = await fetch(`${FIREBASE_DB_URL}/keys/${key}.json`);
+        const data = await response.json();
 
         if (!data || !data.active) {
             msgEl.textContent = '❌ Key không hợp lệ hoặc đã bị khóa!';
@@ -438,26 +634,33 @@ async function loginUser() {
             return;
         }
 
+        // Lưu key hiện tại
         currentKey = key;
         currentKeyData = data;
 
+        // Lấy IP thiết bị
         const deviceIP = await getDeviceIP();
-        const deviceId = getDeviceId();
+        const deviceUID = getDeviceUID();
 
-        // Lưu thông tin đăng nhập
+        // Lưu thông tin đăng nhập lên Firebase
         const loginInfo = {
             key: key,
             deviceIP: deviceIP,
-            deviceId: deviceId,
+            deviceUID: deviceUID,
             loginTime: now,
             userAgent: navigator.userAgent,
             status: 'active'
         };
 
-        await secureRequest('ip_logs/' + key, 'PUT', loginInfo);
+        await fetch(`${FIREBASE_DB_URL}/ip_logs/${key}.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(loginInfo)
+        });
 
-        secureSet('current_key', key);
-        secureSet('device_ip', deviceIP);
+        // Lưu local
+        localStorage.setItem('np_user_current_key', key);
+        localStorage.setItem('np_user_device_ip', deviceIP);
 
         // Hiển thị thông tin key
         const infoDisplay = document.getElementById('keyInfoDisplay');
@@ -475,10 +678,14 @@ async function loginUser() {
         document.getElementById('dispRemain').textContent = remain > 0 ? `${remain} ngày` : 'Hết hạn';
         document.getElementById('dispIP').textContent = deviceIP;
 
+        // Hiển thị VPN
         document.getElementById('vpnInfoDisplay').classList.remove('hidden');
+
+        // Hiển thị UID section
         document.getElementById('uidSection').classList.remove('hidden');
         document.getElementById('downloadSection').classList.add('hidden');
 
+        // Status
         document.getElementById('statusDot').className = 'status-dot online';
         document.getElementById('statusText').innerHTML = '🟢 Đã kết nối · <strong>' + key + '</strong>';
 
@@ -486,6 +693,8 @@ async function loginUser() {
         msgEl.style.color = '#22c55e';
 
         updateSteps(2);
+
+        // Lưu lịch sử
         addHistory(key, 'Kiểm tra key thành công', deviceIP);
 
     } catch (error) {
@@ -495,7 +704,7 @@ async function loginUser() {
 }
 
 // ============================================================
-// 7. KÍCH HOẠT UID
+// KÍCH HOẠT UID
 // ============================================================
 async function activateUID() {
     const uid = document.getElementById('uidInput').value.trim();
@@ -514,6 +723,7 @@ async function activateUID() {
     }
 
     try {
+        // Kiểm tra UID đã tồn tại chưa
         const devices = currentKeyData.devices || {};
         const deviceIds = Object.keys(devices);
 
@@ -534,6 +744,7 @@ async function activateUID() {
             return;
         }
 
+        // Lưu UID
         const updateData = {
             ...currentKeyData,
             devices: {
@@ -542,7 +753,14 @@ async function activateUID() {
             }
         };
 
-        await secureRequest('keys/' + currentKey, 'PUT', updateData);
+        const response = await fetch(`${FIREBASE_DB_URL}/keys/${currentKey}.json`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateData)
+        });
+
+        if (!response.ok) throw new Error('Lỗi lưu UID');
+
         currentKeyData = updateData;
 
         msgEl.textContent = '✅ Kích hoạt thành công!';
@@ -553,6 +771,7 @@ async function activateUID() {
         document.getElementById('uidSection').classList.add('hidden');
         document.getElementById('downloadSection').classList.remove('hidden');
 
+        // Cập nhật slot
         const devices2 = Object.keys(updateData.devices || {});
         document.getElementById('dispSlot').textContent = `${devices2.length}/${updateData.maxDevices || 1} còn trống`;
 
@@ -565,7 +784,7 @@ async function activateUID() {
 }
 
 // ============================================================
-// 8. TẢI MITMROXY CONFIG (BẢO MẬT)
+// TẢI MITMROXY CONFIG
 // ============================================================
 function downloadMitmConfig() {
     if (!currentKey) {
@@ -573,17 +792,10 @@ function downloadMitmConfig() {
         return;
     }
 
-    const deviceIP = secureGet('device_ip') || '0.0.0.0';
-    const uid = document.getElementById('uidInput').value.trim() || 'CHƯA NHẬP';
-    const expireDate = new Date(currentKeyData.expire);
-    const remain = Math.floor((currentKeyData.expire - Date.now()) / (24 * 60 * 60 * 1000));
+    const deviceIP = localStorage.getItem('np_user_device_ip') || '0.0.0.0';
+    const deviceUID = getDeviceUID();
 
-    // Nội dung hiển thị trong game - được mã hóa
-    const gameDisplay = `I Activated Successfully
-Turn Off Proxy And Enter Game.
-UID: ${uid}
-IP: ${deviceIP}
-Expires: ${expireDate.toLocaleString('vi-VN')} (còn ${remain}d Oh)`;
+    const aims = currentKeyData.aims ? currentKeyData.aims.join(', ') : 'Tất cả AIM';
 
     const config = `<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
@@ -600,17 +812,16 @@ Expires: ${expireDate.toLocaleString('vi-VN')} (còn ${remain}d Oh)`;
     <key>PayloadDisplayName</key>
     <string>🎯 MITMROXY - ${currentKey}</string>
     <key>PayloadDescription</key>
-    <string>• NP PROXY - MITMROXY
-• Key: ${currentKey}
-• UID: ${uid}
-• IP: ${deviceIP}
-• Hết hạn: ${expireDate.toLocaleString('vi-VN')}
-• Liên hệ Admin: 0976457016</string>
+    <string>• MITMROXY PROXY - Key: ${currentKey}
+• IP thiết bị: ${deviceIP}
+• UID: ${deviceUID}
+• AIM hỗ trợ: ${aims}
+• Cổng: 1700, 1701, 1703, 1704, 1706
+• Liên hệ Admin: ${ADMIN_ZALO}</string>
     <key>PayloadOrganization</key>
     <string>NP PROXY</string>
     <key>PayloadContent</key>
     <array>
-        <!-- Web Clip -->
         <dict>
             <key>PayloadType</key>
             <string>com.apple.webClip.managed</string>
@@ -623,7 +834,7 @@ Expires: ${expireDate.toLocaleString('vi-VN')} (còn ${remain}d Oh)`;
             <key>PayloadDisplayName</key>
             <string>MITMROXY ${currentKey}</string>
             <key>URL</key>
-            <string>https://mitmproxy.local/?key=${currentKey}&uid=${uid}&ip=${deviceIP}</string>
+            <string>https://${PROXY_SERVER}/?key=${currentKey}&ip=${deviceIP}</string>
             <key>Label</key>
             <string>MITMROXY</string>
             <key>IsRemovable</key>
@@ -631,7 +842,6 @@ Expires: ${expireDate.toLocaleString('vi-VN')} (còn ${remain}d Oh)`;
             <key>FullScreen</key>
             <true/>
         </dict>
-        <!-- HTTP Proxy -->
         <dict>
             <key>PayloadType</key>
             <string>com.apple.proxy.http.global</string>
@@ -646,59 +856,9 @@ Expires: ${expireDate.toLocaleString('vi-VN')} (còn ${remain}d Oh)`;
             <key>ProxyType</key>
             <string>Manual</string>
             <key>ProxyServer</key>
-            <string>mitmproxy.local</string>
+            <string>${PROXY_SERVER}</string>
             <key>ProxyPort</key>
-            <integer>8080</integer>
-        </dict>
-        <!-- VPN Shield - Bảo vệ tài khoản -->
-        <dict>
-            <key>PayloadType</key>
-            <string>com.apple.vpn.managed</string>
-            <key>PayloadVersion</key>
-            <integer>1</integer>
-            <key>PayloadIdentifier</key>
-            <string>com.npproxy.mitm.vpn</string>
-            <key>PayloadUUID</key>
-            <string>${currentKey}-vpn-${Date.now()}</string>
-            <key>PayloadDisplayName</key>
-            <string>NP PROXY Shield</string>
-            <key>VPNType</key>
-            <string>IKEv2</string>
-            <key>IKEv2</key>
-            <dict>
-                <key>RemoteAddress</key>
-                <string>shield.npproxy.local</string>
-                <key>RemoteIdentifier</key>
-                <string>shield.npproxy.local</string>
-                <key>LocalIdentifier</key>
-                <string>${currentKey}</string>
-                <key>AuthenticationMethod</key>
-                <string>SharedSecret</string>
-                <key>SharedSecret</key>
-                <string>${currentKey}${uid}</string>
-                <key>DeadPeerDetectionRate</key>
-                <string>Medium</string>
-                <key>EnablePFS</key>
-                <true/>
-                <key>IKESecurityParameters</key>
-                <dict>
-                    <key>EncryptionAlgorithm</key>
-                    <string>AES-256</string>
-                    <key>IntegrityAlgorithm</key>
-                    <string>SHA2-256</string>
-                    <key>DiffieHellmanGroup</key>
-                    <integer>14</integer>
-                </dict>
-                <key>ChildSecurityParameters</key>
-                <dict>
-                    <key>EncryptionAlgorithm</key>
-                    <string>AES-256</string>
-                    <key>IntegrityAlgorithm</key>
-                    <string>SHA2-256</string>
-                    <key>DiffieHellmanGroup</key>
-                    <integer>14</integer>
-                </dict>
-            </dict>
+            <integer>${PROXY_PORT}</integer>
         </dict>
     </array>
 </dict>
@@ -714,7 +874,7 @@ Expires: ${expireDate.toLocaleString('vi-VN')} (còn ${remain}d Oh)`;
 }
 
 // ============================================================
-// 9. CÁC HÀM KHÁC (BẢO MẬT)
+// RESET
 // ============================================================
 function resetActivation() {
     currentKey = '';
@@ -732,6 +892,9 @@ function resetActivation() {
     showToast('🔄 Đã reset, sẵn sàng nhập key mới');
 }
 
+// ============================================================
+// TRA CỨU UID
+// ============================================================
 async function searchUID() {
     const uid = document.getElementById('searchUID').value.trim();
     const resultEl = document.getElementById('searchResult');
@@ -744,7 +907,8 @@ async function searchUID() {
     resultEl.innerHTML = '<div style="color:#8a8a9a;font-size:13px;">⏳ Đang tìm kiếm...</div>';
 
     try {
-        const data = await secureRequest('keys.json');
+        const response = await fetch(`${FIREBASE_DB_URL}/keys.json`);
+        const data = await response.json();
 
         if (!data) {
             resultEl.innerHTML = '<div style="color:#8a8a9a;font-size:13px;">❌ Không tìm thấy UID</div>';
@@ -783,8 +947,11 @@ async function searchUID() {
     }
 }
 
+// ============================================================
+// LỊCH SỬ
+// ============================================================
 function addHistory(key, action, ip) {
-    let history = JSON.parse(secureGet('user_history') || '[]');
+    let history = JSON.parse(localStorage.getItem('np_user_history') || '[]');
     history.unshift({
         key: key,
         action: action,
@@ -793,13 +960,13 @@ function addHistory(key, action, ip) {
         timestamp: Date.now()
     });
     if (history.length > 50) history = history.slice(0, 50);
-    secureSet('user_history', JSON.stringify(history));
+    localStorage.setItem('np_user_history', JSON.stringify(history));
     renderHistory();
 }
 
 function renderHistory() {
     const container = document.getElementById('historyList');
-    const history = JSON.parse(secureGet('user_history') || '[]');
+    const history = JSON.parse(localStorage.getItem('np_user_history') || '[]');
 
     if (history.length === 0) {
         container.innerHTML = '<div class="history-empty">Chưa có lịch sử kích hoạt</div>';
@@ -821,12 +988,15 @@ function renderHistory() {
 
 function clearHistory() {
     if (confirm('Xóa tất cả lịch sử?')) {
-        secureSet('user_history', '[]');
+        localStorage.removeItem('np_user_history');
         renderHistory();
         showToast('🗑️ Đã xóa lịch sử');
     }
 }
 
+// ============================================================
+// HELPERS
+// ============================================================
 function getTypeLabel(type) {
     const map = { 'vip': '⭐ Vĩnh Viễn', '1m': '📅 1 Tháng', '3m': '📅 3 Tháng', '2m': '📅 2 Tháng', '1w': '📅 1 Tuần', '1d': '📅 1 Ngày' };
     return map[type] || type;
@@ -850,10 +1020,10 @@ function showToast(msg) {
 }
 
 // ============================================================
-// 10. KIỂM TRA KEY ĐÃ LƯU (MÃ HÓA)
+// CHECK SAVED KEY
 // ============================================================
 function checkSavedUserKey() {
-    const savedKey = secureGet('current_key');
+    const savedKey = localStorage.getItem('np_user_current_key');
     if (savedKey) {
         document.getElementById('loginKey').value = savedKey;
         document.getElementById('statusDot').className = 'status-dot online';
@@ -862,12 +1032,12 @@ function checkSavedUserKey() {
 }
 
 // ============================================================
-// 11. INIT
+// INIT
 // ============================================================
 document.addEventListener('DOMContentLoaded', function() {
     checkSavedUserKey();
     renderHistory();
-    console.log('🔐 NP PROXY - Bảo mật tối ưu nhất thế giới');
+    console.log('👤 NP PROXY User App loaded');
 });
 </script>
 </body>
